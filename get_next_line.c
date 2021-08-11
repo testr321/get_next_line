@@ -75,7 +75,6 @@ char	*get_next_line(int fd)
 int main()
 {
 	int fd = open("testrtext.txt", O_RDONLY);
-
 	char *testr;
 
 	testr = get_next_line(fd);
