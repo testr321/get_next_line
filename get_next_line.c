@@ -1,6 +1,4 @@
 #include "get_next_line.h"
-#include <stdio.h>
-#include <string.h>
 
 static char	*ft_setstr(char *buffer, char *str, int tempint)
 {
@@ -15,7 +13,7 @@ static char	*ft_setstr(char *buffer, char *str, int tempint)
 	return (str);
 }
 
-static char	*get_next_line2(int fd, size_t *index, char *buffer, char *str)
+static char	*readloop(int fd, size_t *index, char *buffer, char *str)
 {
 	int		tempint;
 
@@ -24,10 +22,15 @@ static char	*get_next_line2(int fd, size_t *index, char *buffer, char *str)
 		tempint = read(fd, buffer, BUFFER_SIZE);
 		buffer[tempint] = '\0';
 		*index = ft_check(buffer);
-		if (tempint != BUFFER_SIZE && !*index)
+		if (tempint == -1 || (tempint == 0 && !*str))
 		{
 			free(str);
 			return (0);
+		}
+		if (tempint == 0 && *str)
+		{
+			str = ft_setstr(buffer, str, tempint + ft_strlen(str) + 1);
+			return (str);
 		}
 		if (!*index)
 			tempint += ft_strlen(str) + 1;
@@ -52,10 +55,11 @@ char	*get_next_line(int fd)
 		str = malloc(sizeof(*str) * (tempint + 1));
 		ft_strlcpy(str, buffer + index, tempint + 1);
 		index += tempint;
+		return (str);
 	}
 	else
 	{
-		if (index <= BUFFER_SIZE)
+		if (index < BUFFER_SIZE)
 		{
 			tempint = ft_strlen(buffer + index);
 			str = malloc(sizeof(*str) + (tempint + 1));
@@ -63,11 +67,11 @@ char	*get_next_line(int fd)
 		}
 		else
 			str = ft_strdup("\0");
-		return (get_next_line2(fd, &index, buffer, str));
+		return (readloop(fd, &index, buffer, str));
 	}
-	return (str);
 }
-/* 
+/*
+#include <stdio.h>
 int main()
 {
 	int fd = open("testrtext.txt", O_RDONLY);
