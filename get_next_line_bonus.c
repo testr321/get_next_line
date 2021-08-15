@@ -120,6 +120,11 @@ char	*get_next_line(int fd)
 				tempint--;
 			}
 			free(tempstr);
+			readlen = read(fd, tempbuffer, BUFFER_SIZE);
+			if (readlen == -1)
+			{
+				return (0);
+			}
 		}
 		else
 		{
