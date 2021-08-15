@@ -30,8 +30,8 @@ char	*ft_strljoin(char const *s1, char const *s2, size_t size)
 {
 	char	*str;
 	size_t	len;
-	int		i;
-	int		j;
+	size_t	i;
+	size_t	j;
 
 	len = ft_strlen(s1) + size + 1;
 	if (ft_strlen(s2) < size)
