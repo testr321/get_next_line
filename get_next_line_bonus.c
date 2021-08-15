@@ -4,10 +4,9 @@ static char	*ft_setstr(int fd, char **buffer, char *str, int tempint)
 {
 	char	*tempstr;
 
-	if (tempint == -1)
-	{
-		
-	}
+	tempint += ft_strlen(str) + ft_strlen(buffer[fd]);
+	if (ft_check(buffer[fd]))
+		tempint = ft_strlen(str) + ft_check(buffer[fd]);
 	tempstr = ft_strljoin(str, "", 0);
 	free(str);
 	if (ft_check(buffer[fd]))
@@ -24,13 +23,9 @@ static char	*readloop(int fd, char **buffer, char *str)
 	char	tempbuffer[BUFFER_SIZE + 1];
 	char	*tempstr;
 
-	tempint = 0;
 	while (1)
 	{
-		tempint += ft_strlen(str) + ft_strlen(buffer[fd]);
-		if (ft_check(buffer[fd]))
-			tempint = ft_strlen(str) + ft_check(buffer[fd]);
-		str = ft_setstr(fd, buffer, str, -1);
+		str = ft_setstr(fd, buffer, str, 0);
 		if (ft_check(buffer[fd]))
 		{
 			tempint = ft_check(buffer[fd]);
