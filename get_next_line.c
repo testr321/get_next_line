@@ -22,7 +22,7 @@ static char	*readloop(int fd, size_t *index, char *buffer, char *str)
 		tempint = read(fd, buffer, BUFFER_SIZE);
 		buffer[tempint] = '\0';
 		*index = ft_check(buffer);
-		if (tempint == -1 || (tempint == 0 && !*str))
+		if (tempint == -1 || (tempint == 0 && !*str) || fd < 0)
 		{
 			free(str);
 			return (0);

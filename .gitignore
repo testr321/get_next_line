@@ -1,4 +1,6 @@
-testr.c
+testr*.c
 a.out
-testrtext.txt
+testrtext*.txt
 gnlTester
+files
+save*.c
