@@ -24,6 +24,7 @@ static char	*ft_setstr(int fd, char **buffer, char *str, int tempint)
 static char	*readloop(int fd, char **buffer, char *str)
 {
 	int		tempint;
+
 	char	*tempstr;
 
 	tempint = 0;
@@ -43,7 +44,7 @@ static char	*readloop(int fd, char **buffer, char *str)
 			return (str);
 		}
 		free(buffer[fd]);
-		buffer[fd] = malloc(sizeof(*buffer) * (BUFFER_SIZE + 1));
+		buffer[fd] = malloc(sizeof(**buffer) * (BUFFER_SIZE + 1));
 		tempint = read(fd - 1, buffer[fd], BUFFER_SIZE);
 		buffer[fd][tempint] = '\0';
 		if (tempint == 0 && !*str)
