@@ -26,6 +26,7 @@ static char	*readloop(int fd, char **buffer, char *str)
 	int		tempint;
 	char	*tempstr;
 
+	tempint = 0;
 	while (1)
 	{
 		str = ft_setstr(fd, buffer, str, tempint);
