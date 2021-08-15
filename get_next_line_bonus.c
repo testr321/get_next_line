@@ -5,11 +5,9 @@ static char	*ft_setstr(int fd, char **buffer, char *str, int tempint)
 {
 	char	*tempstr;
 
-	tempstr = ft_strdup(str);
+	tempstr = ft_strljoin(str, "", 0);
 	free(str);
-	str = malloc(sizeof(*str) * tempint);
-	ft_strlcpy(str, tempstr, (ft_strlen(tempstr) + 1));
-	ft_strlcat(str, buffer[fd], tempint);
+	str = ft_strljoin(tempstr, buffer[fd], tempint);
 	free(tempstr);
 	return (str);
 }
@@ -18,6 +16,7 @@ static char	*readloop(int fd, char **buffer, char *str)
 {
 	int		tempint;
 	char	tempbuffer[BUFFER_SIZE + 1];
+	char	*tempstr;
 
 	tempint = 0;
 	while (1)
@@ -30,13 +29,13 @@ static char	*readloop(int fd, char **buffer, char *str)
 		if (ft_check(buffer[fd]))
 		{
 			tempint = ft_check(buffer[fd]);
-			ft_strlcpy(buffer[fd], buffer[fd] + tempint,
-				ft_strlen(buffer[fd] + tempint) + 1);
-			if (buffer[fd][0] == '\0')
-			{
-				free(buffer[fd]);
+			tempstr = ft_strljoin(buffer[fd] + tempint, "", 0);
+			free(buffer[fd]);
+			if (ft_strlen(tempstr))
+				buffer[fd] = ft_strljoin(tempstr, "", 0);
+			else
 				buffer[fd] = 0;
-			}
+			free(tempstr);
 			return (str);
 		}
 		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
@@ -49,7 +48,7 @@ static char	*readloop(int fd, char **buffer, char *str)
 			return (0);
 		}
 		free(buffer[fd]);
-		buffer[fd] = ft_strdup(tempbuffer);
+		buffer[fd] = ft_strljoin(tempbuffer, "", 0);
 		if (tempint == 0 && *str)
 		{
 			str = ft_setstr(fd, buffer, str, ft_strlen(str) + 1);
@@ -94,13 +93,12 @@ char	*get_next_line(int fd)
 			tempint = ft_check(buffer[fd]);
 			if (tempint)
 			{
-				str = malloc(sizeof(*str) * (tempint + 1));
-				ft_strlcpy(str, buffer[fd], tempint + 1);
+				str = ft_strljoin(str, buffer[fd], tempint + 1);
 				tempstr = malloc(sizeof(*tempstr) * 2);
 				tempstr[1] = 0;
-				tempstr[0] = ft_strdup(buffer[fd] + tempint);
+				tempstr[0] = ft_strljoin(buffer[fd] + tempint, "", 0);
 				free(buffer[fd]);
-				buffer[fd] = ft_strdup(tempstr[0]);
+				buffer[fd] = ft_strljoin(tempstr[0], "", 0);
 				free(tempstr[0]);
 				free(tempstr);
 				return (str);
@@ -118,12 +116,12 @@ char	*get_next_line(int fd)
 			tempint = 1;
 			tempstr = malloc(sizeof(*tempstr) * (ft_atoi(buffer[0]) + 2));
 			tempstr[ft_atoi(buffer[0]) + 1] = 0; 
-			tempstr[0] = ft_strdup(buffer[0]);
+			tempstr[0] = ft_strljoin(buffer[0], "", 0);
 			while (tempint <= ft_atoi(buffer[0]) + 1)
 			{
 				if (buffer[tempint])
 				{
-					tempstr[tempint] = ft_strdup(buffer[tempint]);
+					tempstr[tempint] = ft_strljoin(buffer[tempint], "", 0);
 					free(buffer[tempint]);
 				}
 				else
@@ -133,13 +131,13 @@ char	*get_next_line(int fd)
 			free(buffer);
 			buffer = malloc(sizeof(*buffer) * (fd + 2));
 			buffer[fd + 1] = 0;
-			buffer[0] = ft_strdup(tempstr[0]);
+			buffer[0] = ft_strljoin(tempstr[0], "", 0);
 			tempint = 1;
 			while (tempint <= (ft_atoi(buffer[0])))
 			{
 				if (tempstr[tempint])
 				{
-					buffer[tempint] = ft_strdup(tempstr[tempint]);
+					buffer[tempint] = ft_strljoin(tempstr[tempint], "", 0);
 					free(tempstr[tempint]);
 				}
 				else
@@ -157,15 +155,15 @@ char	*get_next_line(int fd)
 	}
 	tempbuffer[readlen] = '\0';
 	if (buffer[fd])
-		str = ft_strdup(buffer[fd]);
+		str = ft_strljoin(buffer[fd], "", 0);
 	else
-		str = ft_strdup("\0");
+		str = ft_strljoin("\0", "", 0);
 	free(buffer[fd]);
-	buffer[fd] = ft_strdup(tempbuffer);
+	buffer[fd] = ft_strljoin(tempbuffer, "", 0);
 	return (readloop(fd, buffer, str));
 }
 
-/* #include <stdio.h>
+#include <stdio.h>
 int main()
 {
 	int fd[4];
@@ -214,4 +212,4 @@ int main()
 	printf("Main output: %s",  testr);
 	printf("---main newline test---\n");
 	free(testr);
-} */
+}

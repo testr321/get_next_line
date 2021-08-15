@@ -13,12 +13,9 @@ char	*get_next_line(int fd);
 
 size_t	ft_check(const char *s);
 
-
-char	*ft_strdup(const char *s);
 size_t	ft_strlen(const char *s);
-size_t	ft_strlcat(char *dest, const char *src, size_t size);
-char	*ft_itoa(int n);
+char	*ft_strljoin(char const *s1, char const *s2, size_t size);
 int		ft_atoi(const char *nptr);
-size_t	ft_strlcpy(char *dest, const char *src, size_t size);
+char	*ft_itoa(int n);
 
 #endif
