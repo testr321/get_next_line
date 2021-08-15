@@ -34,16 +34,12 @@ static char	*readloop(int fd, char **buffer, char *str)
 				ft_strlen(buffer[fd] + tempint) + 1);
 			if (buffer[fd][0] == '\0')
 			{
-				printf("true\n");
 				free(buffer[fd]);
 				buffer[fd] = 0;
 			}
-			if (buffer[fd])
-				printf("not blank\n");
-			printf("return 1\n");
 			return (str);
 		}
-		tempint = read(fd, tempbuffer, BUFFER_SIZE);
+		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
 		tempbuffer[tempint] = '\0';
 		if (tempint == -1 || (tempint == 0 && !*str))
 		{
@@ -155,10 +151,7 @@ char	*get_next_line(int fd)
 	}
 	tempbuffer[readlen] = '\0';
 	if (buffer[fd])
-	{
-		printf("not blank");
 		str = ft_strdup(buffer[fd]);
-	}
 	else
 		str = ft_strdup("\0");
 	free(buffer[fd]);
@@ -170,7 +163,7 @@ char	*get_next_line(int fd)
 int main()
 {
 	int fd[4];
-	fd[0] = open("files/multiple_nlx5", O_RDWR);
+	fd[0] = open("files/41_no_nl", O_RDWR);
 	fd[1] = open("files/42_no_nl", O_RDWR);
 	char *testr;
 
