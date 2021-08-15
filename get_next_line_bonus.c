@@ -21,6 +21,7 @@ static char	*readloop(int fd, char **buffer, char *str)
 {
 	int		tempint;
 	char	tempbuffer[BUFFER_SIZE + 1];
+	char	*tempstr;
 
 	// printf("1 %s\n", buffer[fd]);
 	tempint = 0;
