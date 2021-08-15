@@ -94,7 +94,10 @@ char	*get_next_line(int fd)
 		// printf("enter yes buffer\n");
 		if (ft_atoi(buffer[0]) < fd)
 		{
-			// printf("fd exist\n");
+			// printf("fd no exist\n");
+			readlen = read(fd, tempbuffer, BUFFER_SIZE);
+			if (readlen == -1)
+				return (0);
 			tempstr = malloc(sizeof(*tempstr) * (ft_atoi(buffer[0]) + 2));
 			tempint = 1;
 			while (tempint < ft_atoi(buffer[0]) + 2)
@@ -120,11 +123,7 @@ char	*get_next_line(int fd)
 				tempint--;
 			}
 			free(tempstr);
-			readlen = read(fd, tempbuffer, BUFFER_SIZE);
-			if (readlen == -1)
-			{
-				return (0);
-			}
+			buffer[0] = ft_itoa(fd);
 		}
 		else
 		{
