@@ -7,7 +7,10 @@ static char	*ft_setstr(int fd, char **buffer, char *str, int tempint)
 
 	tempstr = ft_strljoin(str, "", 0);
 	free(str);
-	str = ft_strljoin(tempstr, buffer[fd], tempint - 1);
+	if (ft_check(buffer[fd]))
+		str = ft_strljoin(tempstr, buffer[fd], ft_check(buffer[fd]));
+	else
+		str = ft_strljoin(tempstr, buffer[fd], tempint);
 	free(tempstr);
 	return (str);
 }
@@ -22,9 +25,9 @@ static char	*readloop(int fd, char **buffer, char *str)
 	while (1)
 	{
 		if (!ft_check(buffer[fd]))
-			tempint += ft_strlen(str) + ft_strlen(buffer[fd]) + 1;
+			tempint += ft_strlen(str) + ft_strlen(buffer[fd]);
 		else
-			tempint = ft_strlen(str) + ft_check(buffer[fd]) + 1;
+			tempint = ft_strlen(str) + ft_check(buffer[fd]);
 		str = ft_setstr(fd, buffer, str, tempint);
 		if (ft_check(buffer[fd]))
 		{
@@ -168,11 +171,13 @@ char	*get_next_line(int fd)
 int main()
 {
 	int fd[4];
-	fd[0] = open("files/41_with_nl", O_RDWR);
+	fd[0] = open("files/43_with_nl", O_RDWR);
 	char *testr;
 
 	testr = get_next_line(fd[0]);
 	printf("Main output: %s",  testr);
+	printf("---main newline test---\n");
+	printf("Test output: 012345678901234567890123456789012345678901\n");
 	printf("---main newline test---\n");
 	free(testr);
 } */

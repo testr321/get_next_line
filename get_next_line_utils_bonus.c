@@ -25,7 +25,7 @@ size_t    ft_strlen(const char *s)
         len++;
     return (len);
 }
-
+#include <stdio.h>
 char	*ft_strljoin(char const *s1, char const *s2, size_t size)
 {
 	char	*str;
@@ -46,7 +46,7 @@ char	*ft_strljoin(char const *s1, char const *s2, size_t size)
 		i++;
 	}
 	j = 0;
-	while (s2[j] && j < size)
+	while (s2[j] && j + i < (len - 1))
 	{
 		str[i + j] = s2[j];
 		j++;
