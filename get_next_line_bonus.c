@@ -35,12 +35,12 @@ static char	*readloop(int fd, char **buffer, char *str)
 		if (ft_check(buffer[fd]))
 		{
 			tempint = ft_check(buffer[fd]);
-			// tempstr = ft_strdup(buffer[fd] + tempint);
-			// free(buffer[fd]);
-			// buffer[fd] = ft_strdup(tempstr);
-			// free(tempstr);
-			ft_strlcpy(buffer[fd], buffer[fd] + tempint,
-				ft_strlen(buffer[fd] + tempint) + 1);
+			tempstr = ft_strdup(buffer[fd] + tempint);
+			free(buffer[fd]);
+			buffer[fd] = ft_strdup(tempstr);
+			free(tempstr);
+			// ft_strlcpy(buffer[fd], buffer[fd] + tempint,
+			// 	ft_strlen(buffer[fd] + tempint) + 1);
 			// printf("leftover: %s\n", buffer[fd]);
 			return (str);
 		}
