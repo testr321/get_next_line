@@ -94,7 +94,7 @@ char	*get_next_line(int fd)
 			if (tempint)
 			{
 				str = malloc(sizeof(*str) * (tempint + 1));
-				ft(str, buffer[fd], tempint + 1);
+				ft_strlcpy(str, buffer[fd], tempint + 1);
 				tempstr = malloc(sizeof(*tempstr) * 2);
 				tempstr[1] = 0;
 				tempstr[0] = ft_strljoin(buffer[fd] + tempint, "", 0);
