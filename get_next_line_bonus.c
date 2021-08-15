@@ -40,6 +40,8 @@ static char	*readloop(int fd, char **buffer, char *str)
 		}
 		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
 		tempbuffer[tempint] = '\0';
+		free(buffer[fd]);
+		buffer[fd] = ft_strljoin(tempbuffer, "", 0);
 		if (tempint == 0 && !*str)
 		{
 			free(str);
@@ -47,13 +49,9 @@ static char	*readloop(int fd, char **buffer, char *str)
 			buffer[fd] = 0;
 			return (0);
 		}
-		free(buffer[fd]);
-		buffer[fd] = ft_strljoin(tempbuffer, "", 0);
 		if (tempint == 0 && *str)
 		{
-			tempstr = ft_strljoin(str, "", 0);
-			free(str);
-			str = ft_setstr(fd, buffer, tempstr, ft_strlen(tempstr));
+			str = ft_setstr(fd, buffer, str, ft_strlen(str));
 			free(buffer[fd]);
 			buffer[fd] = 0;
 			return (str);
