@@ -118,6 +118,7 @@ char	*get_next_line(int fd)
 			tempint = 1;
 			tempstr = malloc(sizeof(*tempstr) * (ft_atoi(buffer[0]) + 2));
 			tempstr[ft_atoi(buffer[0]) + 1] = 0; 
+			tempstr[0] = ft_strdup(buffer[0]);
 			while (tempint <= ft_atoi(buffer[0]) + 1)
 			{
 				if (buffer[tempint])
@@ -125,19 +126,24 @@ char	*get_next_line(int fd)
 					tempstr[tempint] = ft_strdup(buffer[tempint]);
 					free(buffer[tempint]);
 				}
+				else
+					tempstr[tempint] = 0;
 				tempint++;
 			}
 			free(buffer);
 			buffer = malloc(sizeof(*buffer) * (fd + 2));
 			buffer[fd + 1] = 0;
+			buffer[0] = ft_strdup(tempstr[0]);
 			tempint = 1;
-			while (tempint <= ft_atoi(buffer[0]) + 1)
+			while (tempint <= (ft_atoi(buffer[0])))
 			{
 				if (tempstr[tempint])
 				{
 					buffer[tempint] = ft_strdup(tempstr[tempint]);
 					free(tempstr[tempint]);
 				}
+				else
+					buffer[tempint] = 0;
 				tempint++;
 			}
 			while (tempint <= fd)
@@ -163,77 +169,49 @@ char	*get_next_line(int fd)
 int main()
 {
 	int fd[4];
-	fd[0] = open("files/41_no_nl", O_RDWR);
-	fd[1] = open("files/42_no_nl", O_RDWR);
+	fd[0] = open("files/41_with_nl", O_RDWR);
+	fd[1] = open("files/42_with_nl", O_RDWR);
+	fd[2] = open("files/43_with_nl", O_RDWR);
+	fd[3] = open("files/nl", O_RDWR);
 	char *testr;
 
-	testr = get_next_line(fd[0]);
-	printf("Main output1: %s",  testr);
+	testr = get_next_line(1000);
+	printf("Main output: %s",  testr);
 	printf("---main newline test---\n");
 	free(testr);
 
 	testr = get_next_line(fd[0]);
-	printf("Main output1: %s",  testr);
+	printf("Main output: %s",  testr);
+	printf("---main newline test---\n");
+	free(testr);
+
+	testr = get_next_line(1001);
+	printf("Main output: %s",  testr);
+	printf("---main newline test---\n");
+	free(testr);
+
+	testr = get_next_line(fd[1]);
+	printf("Main output: %s",  testr);
+	printf("---main newline test---\n");
+	free(testr);
+
+	testr = get_next_line(1002);
+	printf("Main output: %s",  testr);
+	printf("---main newline test---\n");
+	free(testr);
+
+	testr = get_next_line(fd[2]);
+	printf("Main output: %s",  testr);
+	printf("---main newline test---\n");
+	free(testr);
+
+	testr = get_next_line(1003);
+	printf("Main output: %s",  testr);
 	printf("---main newline test---\n");
 	free(testr);
 
 	testr = get_next_line(fd[0]);
-	printf("Main output1: %s",  testr);
+	printf("Main output: %s",  testr);
 	printf("---main newline test---\n");
 	free(testr);
-
-	testr = get_next_line(fd[0]);
-	printf("Main output1: %s",  testr);
-	printf("---main newline test---\n");
-	free(testr);
-
-	testr = get_next_line(fd[0]);
-	printf("Main output1: %s",  testr);
-	printf("---main newline test---\n");
-	free(testr);
-
-	// testr = get_next_line(1000);
-	// printf("Main output2: %s",  testr);
-	// printf("---main newline test---\n");
-	// free(testr);
-
-	// testr = get_next_line(fd[1]);
-	// printf("Main output1: %s",  testr);
-	// printf("---main newline test---\n");
-	// free(testr);
-
-	// testr = get_next_line(1001);
-	// printf("Main output2: %s",  testr);
-	// printf("---main newline test---\n");
-	// free(testr);
-
- 	// testr = get_next_line(fd);
-	// printf("Main output1: %s",  testr);
-	// printf("---main newline test---\n");
-	// free(testr);
-
-	// testr = get_next_line(fd);
-	// printf("Main output1: %s",  testr);
-	// printf("---main newline test---\n");
-	// free(testr);
-
-	// testr = get_next_line(fd);
-	// printf("Main output1: %s",  testr);
-	// printf("---main newline test---\n");
-	// free(testr);
-
-	// testr = get_next_line(fd);
-	// printf("Main output1: %s",  testr);
-	// printf("---main newline test---\n");
-	// free(testr);
-
-	// testr = get_next_line(fd);
-	// printf("Main output1: %s",  testr);
-	// printf("---main newline test---\n");
-	// free(testr);
-
-	// testr = get_next_line(fd);
-	// printf("Main output1: %s",  testr);
-	// printf("---main newline test---\n");
-	// free(testr);
 } */
