@@ -163,7 +163,7 @@ char	*get_next_line(int fd)
 	return (readloop(fd, buffer, str));
 }
 
-#include <stdio.h>
+/* #include <stdio.h>
 int main()
 {
 	int fd[4];
@@ -212,4 +212,4 @@ int main()
 	printf("Main output: %s",  testr);
 	printf("---main newline test---\n");
 	free(testr);
-}
+} */
