@@ -1,10 +1,16 @@
 #include "get_next_line_bonus.h"
-#include <stdio.h>
 
 static char	*ft_setstr(int fd, char **buffer, char *str, int tempint)
 {
 	 char	*tempstr;
 
+	if (tempint == -1)
+	{
+		if (!ft_check(buffer[fd]))
+			tempint += ft_strlen(str) + ft_strlen(buffer[fd]);
+		else
+			tempint = ft_strlen(str) + ft_check(buffer[fd]);
+	}
 	tempstr = ft_strljoin(str, "", 0);
 	free(str);
 	if (ft_check(buffer[fd]))
@@ -18,16 +24,10 @@ static char	*ft_setstr(int fd, char **buffer, char *str, int tempint)
 static char	*readloop(int fd, char **buffer, char *str)
 {
 	int		tempint;
-	char	tempbuffer[BUFFER_SIZE + 1];
 	char	*tempstr;
 
-	tempint = 0;
 	while (1)
 	{
-		if (!ft_check(buffer[fd]))
-			tempint += ft_strlen(str) + ft_strlen(buffer[fd]);
-		else
-			tempint = ft_strlen(str) + ft_check(buffer[fd]);
 		str = ft_setstr(fd, buffer, str, tempint);
 		if (ft_check(buffer[fd]))
 		{
@@ -41,17 +41,17 @@ static char	*readloop(int fd, char **buffer, char *str)
 			free(tempstr);
 			return (str);
 		}
-		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
-		tempbuffer[tempint] = '\0';
-		if (tempint == -1 || (tempint == 0 && !*str))
+		free(buffer[fd]);
+		buffer[fd] = malloc(sizeof(*buffer) * (BUFFER_SIZE + 1));
+		tempint = read(fd - 1, buffer[fd], BUFFER_SIZE);
+		buffer[fd][tempint] = '\0';
+		if (tempint == 0 && !*str)
 		{
 			free(str);
 			free(buffer[fd]);
 			buffer[fd] = 0;
 			return (0);
 		}
-		free(buffer[fd]);
-		buffer[fd] = ft_strljoin(tempbuffer, "", 0);
 		if (tempint == 0 && *str)
 		{
 			str = ft_setstr(fd, buffer, str, ft_strlen(str) + 1);
