@@ -28,8 +28,7 @@ static char	*readloop(int fd, char **buffer, char *str)
 		str = ft_setstr(fd, buffer, str, 0);
 		if (ft_check(buffer[fd]))
 		{
-			tempint = ft_check(buffer[fd]);
-			tempstr = ft_strljoin(buffer[fd] + tempint, "", 0);
+			tempstr = ft_strljoin(buffer[fd] + ft_check(buffer[fd]), "", 0);
 			free(buffer[fd]);
 			if (ft_strlen(tempstr))
 				buffer[fd] = ft_strljoin(tempstr, "", 0);
