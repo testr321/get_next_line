@@ -96,7 +96,7 @@ char	*get_next_line(int fd)
 			tempint = ft_check(buffer[fd]);
 			if (tempint)
 			{
-				str = ft_strljoin("", buffer[fd], tempint + 1);
+				str = ft_strljoin("", buffer[fd], tempint);
 				tempstr = malloc(sizeof(*tempstr) * 2);
 				tempstr[1] = 0;
 				tempstr[0] = ft_strljoin(buffer[fd] + tempint, "", 0);
