@@ -43,9 +43,8 @@ static char	*readloop(int fd, char **buffer, char *str)
 		buffer[fd] = ft_strljoin(tempbuffer, "", 0);
 		if (tempint == 0)
 		{
-			if (*str)
-				str = ft_setstr(fd, buffer, str, ft_strlen(str));
-			else
+			str = ft_setstr(fd, buffer, str, ft_strlen(str));
+			if (!*str)
 			{
 				free(str);
 				str = 0;
