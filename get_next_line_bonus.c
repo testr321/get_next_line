@@ -171,13 +171,16 @@ char	*get_next_line(int fd)
 int main()
 {
 	int fd[4];
-	fd[0] = open("files/43_with_nl", O_RDWR);
+	fd[0] = open("files/empty", O_RDWR);
 	char *testr;
 
 	testr = get_next_line(fd[0]);
 	printf("Main output: %s",  testr);
 	printf("---main newline test---\n");
-	printf("Test output: 012345678901234567890123456789012345678901\n");
+	free(testr);
+
+	testr = get_next_line(fd[0]);
+	printf("Main output: %s",  testr);
 	printf("---main newline test---\n");
 	free(testr);
 } */
