@@ -114,11 +114,11 @@ char	*get_next_line(int fd)
 		exist(buffer, fd, tempint, 0);
 	}
 	tempbuffer[tempint] = '\0';
-	if ((*buffer)[fd])
-		*str = ft_strljoin((*buffer)[fd], "", 0);
+	if ((buffer)[fd])
+		str = ft_strljoin((buffer)[fd], "", 0);
 	else
-		*str = ft_strljoin("\0", "", 0);
-	free((*buffer)[fd]);
+		str = ft_strljoin("\0", "", 0);
+	free((buffer)[fd]);
 	// get_next_line2(fd, &buffer, &str, 0);
 	return (readloop(fd, buffer, str, tempbuffer));
 }
