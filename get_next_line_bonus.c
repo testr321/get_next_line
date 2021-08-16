@@ -101,7 +101,6 @@ char	*get_next_line(int fd)
 				free(tempstr);
 				return (str);
 			}
-			str = ft_strljoin(buffer[fd], "", 0);
 			readlen = read(fd - 1, tempbuffer, BUFFER_SIZE);
 			if (readlen == -1)
 				return (0);
@@ -151,9 +150,11 @@ char	*get_next_line(int fd)
 			buffer[0] = ft_itoa(fd);
 		}
 	}
-	if (!*str)
-		str = ft_strljoin("\0", "", 0);
 	tempbuffer[readlen] = '\0';
+	if (buffer[fd])
+		str = ft_strljoin(buffer[fd], "", 0);
+	else
+		str = ft_strljoin("\0", "", 0);
 	return (readloop(fd, buffer, str, tempbuffer));
 }
 
