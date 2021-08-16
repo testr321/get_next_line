@@ -92,14 +92,6 @@ static void	get_next_line2(int fd, char ***buffer, char **str, int choice)
 		free(*buffer[0]);
 		*buffer[0] = ft_itoa(fd);
 	}
-	else if (choice == 0)
-	{
-		if ((*buffer)[fd])
-			*str = ft_strljoin((*buffer)[fd], "", 0);
-		else
-			*str = ft_strljoin("\0", "", 0);
-		free((*buffer)[fd]);
-	}
 }
 
 char	*get_next_line(int fd)
@@ -122,7 +114,12 @@ char	*get_next_line(int fd)
 		exist(buffer, fd, tempint, 0);
 	}
 	tempbuffer[tempint] = '\0';
-	get_next_line2(fd, &buffer, &str, 0);
+	if ((*buffer)[fd])
+		*str = ft_strljoin((*buffer)[fd], "", 0);
+	else
+		*str = ft_strljoin("\0", "", 0);
+	free((*buffer)[fd]);
+	// get_next_line2(fd, &buffer, &str, 0);
 	return (readloop(fd, buffer, str, tempbuffer));
 }
 
