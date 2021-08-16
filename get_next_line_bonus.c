@@ -109,7 +109,6 @@ static char	*exist(char **buffer, int fd, int tempint, int choice)
 char	*get_next_line(int fd)
 {
 	static char	**buffer;
-	char		*str;
 	char		tempbuffer[BUFFER_SIZE + 1];
 	int			tempint;
 
@@ -133,7 +132,7 @@ char	*get_next_line(int fd)
 		if (tempint == -1)
 			return (0);
 	}
-	return (get_next_line2(fd, buffer, str, tempbuffer));
+	return (get_next_line2(fd, buffer, tempbuffer, tempint));
 }
 
 /* #include <stdio.h>
