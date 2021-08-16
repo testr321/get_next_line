@@ -1,29 +1,26 @@
 #include "get_next_line_bonus.h"
 
-size_t	ft_check(const char *s)
+size_t	multi(const char *s, int choice)
 {
 	size_t	i;
 
-	if (!s)
+	if (choice == 1)
+	{
+		if (!s)
+			return (0);
+		i = 0;
+		while (s[i])
+		{
+			if (s[i] == '\n')
+				return (i + 1);
+			i++;
+		}
 		return (0);
+	}
 	i = 0;
 	while (s[i])
-	{
-		if (s[i] == '\n')
-			return (i + 1);
 		i++;
-	}
-	return (0);
-}
-
-size_t	ft_strlen(const char *s)
-{
-	size_t	len;
-
-	len = 0;
-	while (s[len])
-		len++;
-	return (len);
+	return (i);
 }
 
 char	*ft_strljoin(char const *s1, char const *s2, size_t size)
@@ -33,9 +30,9 @@ char	*ft_strljoin(char const *s1, char const *s2, size_t size)
 	size_t	i;
 	size_t	j;
 
-	len = ft_strlen(s1) + size + 1;
-	if (ft_strlen(s2) < size)
-		len = ft_strlen(s1) + ft_strlen(s2) + 1;
+	len = multi(s1, 0) + size + 1;
+	if (multi(s2, 0) < size)
+		len = multi(s1, 0) + multi(s2, 0) + 1;
 	str = malloc(sizeof(*s1) * len);
 	if (!str)
 		return (0);

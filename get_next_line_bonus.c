@@ -33,21 +33,21 @@ static char	*ft_setstr(int fd, char **buffer, char *str, int tempint)
 {
 	char	*tempstr;
 
-	tempint += ft_strlen(str) + ft_strlen(buffer[fd]);
-	if (ft_check(buffer[fd]))
-		tempint = ft_strlen(str) + ft_check(buffer[fd]);
+	tempint += multi(str, 0) + multi(buffer[fd], 0);
+	if (multi(buffer[fd], 1))
+		tempint = multi(str, 0) + multi(buffer[fd], 1);
 	tempstr = ft_strljoin(str, "", 0);
 	free(str);
-	if (ft_check(buffer[fd]))
-		str = ft_strljoin(tempstr, buffer[fd], ft_check(buffer[fd]));
+	if (multi(buffer[fd], 1))
+		str = ft_strljoin(tempstr, buffer[fd], multi(buffer[fd], 1));
 	else
 		str = ft_strljoin(tempstr, buffer[fd], tempint);
 	free(tempstr);
-	if (ft_check(buffer[fd]))
+	if (multi(buffer[fd], 1))
 	{
-		tempstr = ft_strljoin(buffer[fd] + ft_check(buffer[fd]), "", 0);
+		tempstr = ft_strljoin(buffer[fd] + multi(buffer[fd], 1), "", 0);
 		free(buffer[fd]);
-		if (ft_strlen(tempstr))
+		if (multi(tempstr, 0))
 			buffer[fd] = ft_strljoin(tempstr, "", 0);
 		else
 			buffer[fd] = 0;
@@ -64,7 +64,7 @@ static char	*readloop(int fd, char **buffer, char *str, char *tempbuffer)
 	while (1)
 	{
 		str = ft_setstr(fd, buffer, str, 0);
-		if (ft_check(str))
+		if (multi(str, 1))
 			return (str);
 		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
 		tempbuffer[tempint] = '\0';
@@ -72,7 +72,7 @@ static char	*readloop(int fd, char **buffer, char *str, char *tempbuffer)
 		buffer[fd] = ft_strljoin(tempbuffer, "", 0);
 		if (tempint == 0)
 		{
-			str = ft_setstr(fd, buffer, str, ft_strlen(str));
+			str = ft_setstr(fd, buffer, str, multi(str, 0));
 			if (!*str)
 			{
 				free(str);
@@ -106,18 +106,12 @@ char	*get_next_line(int fd)
 		buffer[fd + 1] = 0;
 		buffer[0] = ft_itoa(fd);
 		copy(buffer, fd, 3);
-		// tempint = 1;
-		// while (tempint <= fd)
-		// {
-		// 	buffer[tempint] = 0;
-		// 	tempint++;
-		// }
 	}
 	else
 	{
 		if (ft_atoi(buffer[0]) >= fd)
 		{
-			tempint = ft_check(buffer[fd]);
+			tempint = multi(buffer[fd], 1);
 			if (tempint)
 			{
 				str = ft_strljoin("", buffer[fd], tempint);
