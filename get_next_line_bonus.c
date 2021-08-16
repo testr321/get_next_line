@@ -58,7 +58,7 @@ static char	*readloop(int fd, char **buffer, char *str, char *tempbuffer)
 	}
 }
 
-static char	*exist(char **buffer, char fd, int tempint)
+static char	*exist(char **buffer, int fd, int tempint)
 {
 	char	**tempstr;
 	char	*str;
