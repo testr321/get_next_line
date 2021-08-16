@@ -1,11 +1,9 @@
 #include "get_next_line_bonus.h"
 
-static char	**copy(char **str1, int size, int choice)
+static char	**copy(char **str1, int size, int choice, int tempint)
 {
 	char	**str2;
-	int		tempint;
 
-	tempint = 1;
 	if (choice != 2)
 	{
 		str2 = malloc(sizeof(*str2) * (size + 2));
@@ -79,7 +77,7 @@ static char	*exist(char **buffer, int fd, int tempint, int choice)
 	}
 	buffer[fd + 1] = 0;
 	buffer[0] = ft_itoa(fd);
-	copy(buffer, fd, 2);
+	copy(buffer, fd, 2, 1);
 	return (0);
 }
 #include <stdio.h>
@@ -141,8 +139,8 @@ char	*get_next_line(int fd)
 		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
 		if (tempint == -1)
 			return (0);
-		tempstr = copy(buffer, fd, 0);
-		buffer = copy(tempstr, fd, 1);
+		tempstr = copy(buffer, fd, 0, 1);
+		buffer = copy(tempstr, fd, 1, 1);
 		free(buffer[0]);
 		buffer[0] = ft_itoa(fd);
 	}
