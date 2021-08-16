@@ -81,7 +81,7 @@ static char	*exist(char **buffer, int fd, int tempint, int choice)
 	return (0);
 }
 
-char	*get_next_line2(int fd, char **buffer, char *tempbuffer, int *tempint)
+static void	*get_next_line2(int fd, char **buffer, char *tempbuffer, int *tempint)
 {
 	char	**tempstr;
 
