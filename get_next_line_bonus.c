@@ -80,7 +80,7 @@ static char	*exist(char **buffer, int fd, int tempint, int choice)
 	copy(buffer, fd, 2, 1);
 	return (0);
 }
-#include <stdio.h>
+
 /* char	*get_next_line2(int fd, char **buffer, char *tempbuffer, int tempint)
 {
 	char	*str;
@@ -112,12 +112,11 @@ char	*get_next_line(int fd)
 	static char	**buffer;
 	char		tempbuffer[BUFFER_SIZE + 1];
 	int			tempint;
-	char	*str;
-	char	**tempstr;
+	char		*str;
+	char		**tempstr;
 
 	if (fd++ < 0)
 		return (0);
-	tempint = 0;
 	if (!buffer)
 	{
 		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
@@ -153,8 +152,8 @@ char	*get_next_line(int fd)
 	return (readloop(fd, buffer, str, tempbuffer));
 	// return (get_next_line2(fd, buffer, tempbuffer, tempint));
 }
-
-#include <stdio.h>/* 
+/*
+#include <stdio.h>
 int main()
 {
 	int fd[4];
