@@ -58,23 +58,20 @@ static char	*readloop(int fd, char **buffer, char *str, char *tempbuffer)
 	}
 }
 
-static char	*multi2(char **buffer, int fd, int tempint, int choice)
+static char	*exist(char **buffer, int fd, int tempint)
 {
 	char	**tempstr;
 	char	*str;
-	if (choice == 1)
-	{
-		str = ft_strljoin("", buffer[fd], tempint);
-		tempstr = malloc(sizeof(*tempstr) * 2);
-		tempstr[1] = 0;
-		tempstr[0] = ft_strljoin(buffer[fd] + tempint, "", 0);
-		free(buffer[fd]);
-		buffer[fd] = ft_strljoin(tempstr[0], "", 0);
-		free(tempstr[0]);
-		free(tempstr);
-		return (str);
-	}
-	return (0);
+
+	str = ft_strljoin("", buffer[fd], tempint);
+	tempstr = malloc(sizeof(*tempstr) * 2);
+	tempstr[1] = 0;
+	tempstr[0] = ft_strljoin(buffer[fd] + tempint, "", 0);
+	free(buffer[fd]);
+	buffer[fd] = ft_strljoin(tempstr[0], "", 0);
+	free(tempstr[0]);
+	free(tempstr);
+	return (str);
 }
 
 char	*get_next_line(int fd)
@@ -96,13 +93,12 @@ char	*get_next_line(int fd)
 		buffer = malloc(sizeof(*buffer) * (fd + 2));
 		buffer[fd + 1] = 0;
 		buffer[0] = ft_itoa(fd);
-		copy(buffer, fd, 2);
 	}
 	else if (ft_atoi(buffer[0]) >= fd)
 	{
 		tempint = multi(buffer[fd], 1);
 		if (tempint)
-			return (multi2(buffer, fd, tempint, 1));
+			return (exist(buffer, fd, tempint);
 		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
 		if (tempint == -1)
 			return (0);
