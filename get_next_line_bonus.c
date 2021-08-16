@@ -19,7 +19,7 @@ static char	**copy(char **str1, int size, int choice)
 		else
 			str2[tempint++] = 0;
 	}
-	while (tempint <= size && choice == 1)
+	while (tempint <= size && (choice == 1 || choice == 3))
 	{
 		str1[tempint] = 0;
 		tempint++;
@@ -119,7 +119,6 @@ char	*get_next_line(int fd)
 			{
 				str = ft_strljoin("", buffer[fd], tempint);
 				tempstr = copy(buffer, fd, 0);
-				free(buffer[fd]);
 				buffer[fd] = ft_strljoin(tempstr[0], "", 0);
 				free(tempstr[0]);
 				free(tempstr);
