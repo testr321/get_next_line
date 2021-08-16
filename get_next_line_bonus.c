@@ -118,9 +118,7 @@ char	*get_next_line(int fd)
 			if (tempint)
 			{
 				str = ft_strljoin("", buffer[fd], tempint);
-				tempstr = malloc(sizeof(*tempstr) * 2);
-				tempstr[1] = 0;
-				tempstr[0] = ft_strljoin(buffer[fd] + tempint, "", 0);
+				tempstr = copy(buffer, fd, 0);
 				free(buffer[fd]);
 				buffer[fd] = ft_strljoin(tempstr[0], "", 0);
 				free(tempstr[0]);
@@ -151,7 +149,6 @@ char	*get_next_line(int fd)
 	free(buffer[fd]);
 	return (readloop(fd, buffer, str, tempbuffer));
 }
-
 
 /* #include <stdio.h>
 int main()
