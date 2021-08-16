@@ -111,8 +111,6 @@ char	*get_next_line(int fd)
 	static char	**buffer;
 	char		tempbuffer[BUFFER_SIZE + 1];
 	int			tempint;
-	char		**tempstr;
-	char 		*str;
 
 	if (fd++ < 0)
 		return (0);
