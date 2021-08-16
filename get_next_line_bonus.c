@@ -31,8 +31,6 @@ static char	*readloop(int fd, char **buffer, char *str, char *tempbuffer)
 {
 	int		tempint;
 
-	if (!str)
-		str = ft_strljoin("\0", "", 0);
 	free(buffer[fd]);
 	buffer[fd] = ft_strljoin(tempbuffer, "", 0);
 	while (1)
@@ -153,6 +151,8 @@ char	*get_next_line(int fd)
 			buffer[0] = ft_itoa(fd);
 		}
 	}
+	if (!str)
+		str = ft_strljoin("\0", "", 0);
 	tempbuffer[readlen] = '\0';
 	return (readloop(fd, buffer, str, tempbuffer));
 }
