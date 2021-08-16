@@ -140,15 +140,38 @@ char	*get_next_line(int fd)
 int main()
 {
 	int fd[4];
-	fd[0] = open("files/empty", O_RDWR);
+	fd[0] = open("files/41_with_nl", O_RDWR);
+	fd[1] = open("files/42_with_nl", O_RDWR);
+	fd[2] = open("files/43_with_nl", O_RDWR);
+	fd[3] = open("files/nl", O_RDWR);
 	char *testr;
+
+	testr = get_next_line(1000);
+	printf("Main output: %s",  testr);
+	printf("---main newline test---\n");
+	free(testr);
 
 	testr = get_next_line(fd[0]);
 	printf("Main output: %s",  testr);
 	printf("---main newline test---\n");
 	free(testr);
 
-	testr = get_next_line(fd[0]);
+	testr = get_next_line(1001);
+	printf("Main output: %s",  testr);
+	printf("---main newline test---\n");
+	free(testr);
+
+	testr = get_next_line(fd[1]);
+	printf("Main output: %s",  testr);
+	printf("---main newline test---\n");
+	free(testr);
+
+	testr = get_next_line(1002);
+	printf("Main output: %s",  testr);
+	printf("---main newline test---\n");
+	free(testr);
+
+	testr = get_next_line(fd[2]);
 	printf("Main output: %s",  testr);
 	printf("---main newline test---\n");
 	free(testr);
