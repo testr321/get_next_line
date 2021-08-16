@@ -127,15 +127,12 @@ char	*get_next_line(int fd)
 		tempint = multi(buffer[fd], 1);
 		if (tempint)
 			return (exist(buffer, fd, tempint, 1));
-		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
-		if (tempint == -1)
-			return (0);
 	}
+	tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
+	if (tempint == -1)
+		return (0);
 	if (buffer && ft_atoi(buffer[0]) < fd)
 	{
-		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
-		if (tempint == -1)
-			return (0);
 		tempstr = copy(buffer, fd, 0);
 		free(buffer);
 		buffer = copy(tempstr, fd, 1);
