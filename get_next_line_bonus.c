@@ -81,11 +81,10 @@ static char	*exist(char **buffer, int fd, int tempint, int choice)
 	return (0);
 }
 
-char	*get_next_line2(int fd, char **buffer, char *tempbuffer)
+char	*get_next_line2(int fd, char **buffer, char *tempbuffer, int tempint)
 {
 	char	*str;
 	char	**tempstr;
-	int		tempint;
 
 	if (!(ft_atoi(buffer[0]) >= fd || !buffer))
 	{
@@ -133,7 +132,7 @@ char	*get_next_line(int fd)
 		if (tempint == -1)
 			return (0);
 	}
-	return (get_next_line2(fd, buffer, tempbuffer));
+	return (get_next_line2(fd, buffer, tempbuffer, tempint));
 }
 
 /* #include <stdio.h>
