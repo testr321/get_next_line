@@ -101,11 +101,27 @@ char	*get_next_line(int fd)
 	char		tempbuffer[BUFFER_SIZE + 1];
 	int			tempint;
 	char		*str;
+	char		**tempstr;
 
 	if (fd++ < 0)
 		return (0);
 	tempint = 0;
-	if (!buffer)
+	if (buffer)
+	{
+		if (multi(buffer[fd], 1))
+			return (exist(buffer, fd, multi(buffer[fd], 1), 1));
+		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
+		if (tempint == -1)
+			return (0);
+		if (buffer && ft_atoi(buffer[0]) < fd)
+		{
+			tempstr = copy(buffer, fd, 0, 1);
+			buffer = copy(tempstr, fd, 1, 1);
+			free(buffer[0]);
+			buffer[0] = ft_itoa(fd);
+		}
+	}
+	else
 	{
 		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
 		if (tempint == -1)
@@ -113,16 +129,6 @@ char	*get_next_line(int fd)
 		buffer = malloc(sizeof(*buffer) * (fd + 2));
 		exist(buffer, fd, tempint, 0);
 	}
-	else if (ft_atoi(buffer[0]) >= fd)
-	{
-		if (multi(buffer[fd], 1))
-			return (exist(buffer, fd, multi(buffer[fd], 1), 1));
-		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
-		if (tempint == -1)
-			return (0);
-	}
-	if (buffer && ft_atoi(buffer[0]) < fd)
-		get_next_line2(fd, buffer, tempbuffer, &tempint);
 	tempbuffer[tempint] = '\0';
 	if (buffer[fd])
 		str = ft_strljoin(buffer[fd], "", 0);
