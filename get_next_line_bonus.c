@@ -27,11 +27,14 @@ static char	*ft_setstr(int fd, char **buffer, char *str, int tempint)
 	return (str);
 }
 
-static char	*readloop(int fd, char **buffer, char *str)
+static char	*readloop(int fd, char **buffer, char *str, char tempbuffer)
 {
 	int		tempint;
-	char	tempbuffer[BUFFER_SIZE + 1];
 
+	if (!str)
+		str = ft_strljoin("\0", "", 0);
+	free(buffer[fd]);
+	buffer[fd] = ft_strljoin(tempbuffer, "", 0);
 	while (1)
 	{
 		str = ft_setstr(fd, buffer, str, 0);
@@ -100,6 +103,7 @@ char	*get_next_line(int fd)
 				free(tempstr);
 				return (str);
 			}
+			str = ft_strljoin(buffer[fd], "", 0);
 			readlen = read(fd - 1, tempbuffer, BUFFER_SIZE);
 			if (readlen == -1)
 				return (0);
@@ -150,13 +154,7 @@ char	*get_next_line(int fd)
 		}
 	}
 	tempbuffer[readlen] = '\0';
-	if (buffer[fd])
-		str = ft_strljoin(buffer[fd], "", 0);
-	else
-		str = ft_strljoin("\0", "", 0);
-	free(buffer[fd]);
-	buffer[fd] = ft_strljoin(tempbuffer, "", 0);
-	return (readloop(fd, buffer, str));
+	return (readloop(fd, buffer, str, tempbuffer));
 }
 
 /* #include <stdio.h>
