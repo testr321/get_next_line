@@ -81,7 +81,7 @@ static char	*exist(char **buffer, int fd, int tempint, int choice)
 	return (0);
 }
 
-static void	get_next_line2(int fd, char ***buffer, char **str, int choice)
+static void	get_next_line2(int fd, char ***buffer, int choice)
 {
 	char	**tempstr;
 
@@ -107,7 +107,7 @@ char	*get_next_line(int fd)
 	if (fd++ < 0 || tempint == -1)
 		return (0);
 	if (buffer && ft_atoi(buffer[0]) < fd)
-		get_next_line2(fd, &buffer, 0, 1);
+		get_next_line2(fd, &buffer, 1);
 	if (!buffer)
 	{
 		buffer = malloc(sizeof(*buffer) * (fd + 2));
