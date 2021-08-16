@@ -58,7 +58,7 @@ static char	*readloop(int fd, char **buffer, char *str, char *tempbuffer)
 	}
 }
 
-static void	exist(char **buffer)
+static void	exist(char **buffer, char *str, char *tempstr, int tempint)
 {
 	str = ft_strljoin("", buffer[fd], tempint);
 	tempstr = malloc(sizeof(*tempstr) * 2);
@@ -75,8 +75,8 @@ char	*get_next_line(int fd)
 {
 	static char	**buffer;
 	char		**tempstr;
-	char		tempbuffer[BUFFER_SIZE + 1];
 	char		*str;
+	char		tempbuffer[BUFFER_SIZE + 1];
 	int			tempint;
 
 	if (fd++ < 0)
@@ -95,7 +95,7 @@ char	*get_next_line(int fd)
 	{
 		tempint = multi(buffer[fd], 1);
 		if (tempint)
-			return (exist());
+			return (exist(buffer, str, tempstr, tempint));
 		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
 		if (tempint == -1)
 			return (0);
