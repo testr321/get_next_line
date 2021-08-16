@@ -81,19 +81,26 @@ static char	*exist(char **buffer, int fd, int tempint, int choice)
 	return (0);
 }
 
-/* static char	*get_next_line2(int fd, char **buffer, char *tempbuffer, int *tempint)
+static void	get_next_line2(int fd, char ***buffer, char **str, int choice)
 {
 	char	**tempstr;
 
-	*tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
-	if (*tempint == -1)
-		return (0);
-	tempstr = copy(buffer, fd, 0, 1);
-	buffer = copy(tempstr, fd, 1, 1);
-	free(buffer[0]);
-	buffer[0] = ft_itoa(fd);
-	return (0);
-} */
+	if (choice == 1)
+	{
+		tempstr = copy(*buffer, fd, 0, 1);
+		*buffer = copy(tempstr, fd, 1, 1);
+		free(*buffer[0]);
+		*buffer[0] = ft_itoa(fd);
+	}
+	else if (choice == 0)
+	{
+		if ((*buffer)[fd])
+			*str = ft_strljoin((*buffer)[fd], "", 0);
+		else
+			*str = ft_strljoin("\0", "", 0);
+		free((*buffer)[fd]);
+	}
+}
 
 char	*get_next_line(int fd)
 {
@@ -103,43 +110,24 @@ char	*get_next_line(int fd)
 	char		*str;
 	char		**tempstr;
 
-	if (fd++ < 0)
+	if (buffer && ft_atoi(buffer[0]) >= fd && multi(buffer[fd], 1))
+		return (exist(buffer, fd, multi(buffer[fd], 1), 1));
+	tempint = read(fd, tempbuffer, BUFFER_SIZE);
+	if (fd++ < 0 || tempint == -1)
 		return (0);
-	tempint = 0;
-	if (buffer)
+	if (buffer && ft_atoi(buffer[0]) < fd)
+		get_next_line2(fd, &buffer, 0, 1);
+	if (!buffer)
 	{
-		if (multi(buffer[fd], 1))
-			return (exist(buffer, fd, multi(buffer[fd], 1), 1));
-		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
-		if (tempint == -1)
-			return (0);
-		if (buffer && ft_atoi(buffer[0]) < fd)
-		{
-			tempstr = copy(buffer, fd, 0, 1);
-			buffer = copy(tempstr, fd, 1, 1);
-			free(buffer[0]);
-			buffer[0] = ft_itoa(fd);
-		}
-	}
-	else
-	{
-		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
-		if (tempint == -1)
-			return (0);
 		buffer = malloc(sizeof(*buffer) * (fd + 2));
 		exist(buffer, fd, tempint, 0);
 	}
 	tempbuffer[tempint] = '\0';
-	if (buffer[fd])
-		str = ft_strljoin(buffer[fd], "", 0);
-	else
-		str = ft_strljoin("\0", "", 0);
-	free(buffer[fd]);
+	get_next_line2(fd, &buffer, &str, 0);
 	return (readloop(fd, buffer, str, tempbuffer));
-	// return (get_next_line2(fd, buffer, tempbuffer, tempint));
 }
-/*
-#include <stdio.h>
+
+/* #include <stdio.h>
 int main()
 {
 	int fd[4];
