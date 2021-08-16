@@ -22,6 +22,7 @@ static char	**copy(char **str1, int size, int choice)
 			else
 				str2[tempint++] = 0;
 		}
+		free(str1);
 	}
 	while (tempint <= size && (choice == 1 || choice == 2))
 		str1[tempint++] = 0;
@@ -129,9 +130,8 @@ char	*get_next_line(int fd)
 	}
 	else if (ft_atoi(buffer[0]) >= fd)
 	{
-		tempint = multi(buffer[fd], 1);
-		if (tempint)
-			return (exist(buffer, fd, tempint, 1));
+		if (multi(buffer[fd], 1))
+			return (exist(buffer, fd, multi(buffer[fd], 1), 1));
 		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
 		if (tempint == -1)
 			return (0);
@@ -142,9 +142,7 @@ char	*get_next_line(int fd)
 		if (tempint == -1)
 			return (0);
 		tempstr = copy(buffer, fd, 0);
-		free(buffer);
 		buffer = copy(tempstr, fd, 1);
-		free(tempstr);
 		free(buffer[0]);
 		buffer[0] = ft_itoa(fd);
 	}
