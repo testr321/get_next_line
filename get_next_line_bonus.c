@@ -108,8 +108,7 @@ char	*get_next_line(int fd)
 		{
 			readlen = read(fd - 1, tempbuffer, BUFFER_SIZE);
 			if (readlen == -1)
-				return (0);
-			
+				return (0)
 			tempint = 1;
 			tempstr = malloc(sizeof(*tempstr) * (ft_atoi(buffer[0]) + 2));
 			tempstr[ft_atoi(buffer[0]) + 1] = 0; 
