@@ -86,7 +86,7 @@ static char	*exist(char **buffer, int fd, int tempint, int choice)
 	char	*str;
 	char	**tempstr;
 
-	if (!(ft_atoi(buffer[0]) >= fd || !buffer))
+	if (buffer && ft_atoi(buffer[0]) < fd)
 	{
 		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
 		if (tempint == -1)
