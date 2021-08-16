@@ -95,7 +95,7 @@ char	*get_next_line(int fd)
 		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
 		if (tempint == -1)
 			return (0);
-		multi2(buffer, fd, tempint, 0)
+		multi2(buffer, fd, tempint, 0);
 	}
 	else if (ft_atoi(buffer[0]) >= fd)
 	{
