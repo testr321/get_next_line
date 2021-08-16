@@ -81,7 +81,7 @@ static char	*exist(char **buffer, int fd, int tempint, int choice)
 	return (0);
 }
 
-char	*get_next_line2(int fd, char **buffer, char *tempbuffer, int tempint)
+char	*get_next_line2(int fd, char **buffer, char *tempbuffer, int *tempint)
 {
 	char	**tempstr;
 
@@ -104,6 +104,7 @@ char	*get_next_line(int fd)
 
 	if (fd++ < 0)
 		return (0);
+	tempint = 0;
 	if (!buffer)
 	{
 		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
@@ -121,7 +122,7 @@ char	*get_next_line(int fd)
 			return (0);
 	}
 	if (buffer && ft_atoi(buffer[0]) < fd)
-		get_next_line2(fd, buffer, tempbuffer, 0);
+		get_next_line2(fd, buffer, tempbuffer, &tempint);
 	tempbuffer[tempint] = '\0';
 	if (buffer[fd])
 		str = ft_strljoin(buffer[fd], "", 0);
