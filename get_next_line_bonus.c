@@ -11,7 +11,8 @@ static char	**copy(char **str1, int size, int choice)
 		str2 = malloc(sizeof(*str2) * (size + 2));
 		str2[size + 1] = 0;
 		str2[0] = ft_strljoin(str1[0], "", 0);
-		while (tempint <= ft_atoi(str1[0]) + 1)
+		free(str1[0]);
+		while (tempint <= ft_atoi(str2[0]) + 1)
 		{
 			if (str1[tempint])
 			{
@@ -80,8 +81,8 @@ static char	*exist(char **buffer, int fd, int tempint, int choice)
 	copy(buffer, fd, 2);
 	return (0);
 }
-
-char	*get_next_line2(int fd, char **buffer, char *tempbuffer, int tempint)
+#include <stdio.h>
+/* char	*get_next_line2(int fd, char **buffer, char *tempbuffer, int tempint)
 {
 	char	*str;
 	char	**tempstr;
@@ -95,6 +96,7 @@ char	*get_next_line2(int fd, char **buffer, char *tempbuffer, int tempint)
 		free(buffer);
 		buffer = copy(tempstr, fd, 1);
 		free(tempstr);
+		free(buffer[0]);
 		buffer[0] = ft_itoa(fd);
 	}
 	tempbuffer[tempint] = '\0';
@@ -104,13 +106,15 @@ char	*get_next_line2(int fd, char **buffer, char *tempbuffer, int tempint)
 		str = ft_strljoin("\0", "", 0);
 	free(buffer[fd]);
 	return (readloop(fd, buffer, str, tempbuffer));
-} 
+}  */
 
 char	*get_next_line(int fd)
 {
 	static char	**buffer;
 	char		tempbuffer[BUFFER_SIZE + 1];
 	int			tempint;
+	char	*str;
+	char	**tempstr;
 
 	if (fd++ < 0)
 		return (0);
@@ -132,20 +136,35 @@ char	*get_next_line(int fd)
 		if (tempint == -1)
 			return (0);
 	}
-	
-	return (get_next_line2(fd, buffer, tempbuffer, tempint));
+	if (buffer && ft_atoi(buffer[0]) < fd)
+	{
+		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
+		if (tempint == -1)
+			return (0);
+		tempstr = copy(buffer, fd, 0);
+		free(buffer);
+		buffer = copy(tempstr, fd, 1);
+		free(tempstr);
+		free(buffer[0]);
+		buffer[0] = ft_itoa(fd);
+	}
+	tempbuffer[tempint] = '\0';
+	if (buffer[fd])
+		str = ft_strljoin(buffer[fd], "", 0);
+	else
+		str = ft_strljoin("\0", "", 0);
+	free(buffer[fd]);
+	return (readloop(fd, buffer, str, tempbuffer));
+	// return (get_next_line2(fd, buffer, tempbuffer, tempint));
 }
 
-/* #include <stdio.h>
+#include <stdio.h>/* 
 int main()
 {
 	int fd[4];
-	fd[0] = open("files/41_with_nl", O_RDWR);
-	fd[1] = open("files/42_with_nl", O_RDWR);
-	fd[2] = open("files/43_with_nl", O_RDWR);
-	fd[3] = open("files/nl", O_RDWR);
 	char *testr;
 
+	fd[0] = open("files/41_with_nl", O_RDWR);
 	testr = get_next_line(1000);
 	printf("Main output: %s",  testr);
 	printf("---main newline test---\n");
@@ -156,6 +175,7 @@ int main()
 	printf("---main newline test---\n");
 	free(testr);
 
+	fd[1] = open("files/42_with_nl", O_RDWR);
 	testr = get_next_line(1001);
 	printf("Main output: %s",  testr);
 	printf("---main newline test---\n");
@@ -166,12 +186,23 @@ int main()
 	printf("---main newline test---\n");
 	free(testr);
 
+	fd[2] = open("files/43_with_nl", O_RDWR);
 	testr = get_next_line(1002);
 	printf("Main output: %s",  testr);
 	printf("---main newline test---\n");
 	free(testr);
 
 	testr = get_next_line(fd[2]);
+	printf("Main output: %s",  testr);
+	printf("---main newline test---\n");
+	free(testr);
+
+	testr = get_next_line(1003);
+	printf("Main output: %s",  testr);
+	printf("---main newline test---\n");
+	free(testr);
+
+	testr = get_next_line(fd[0]);
 	printf("Main output: %s",  testr);
 	printf("---main newline test---\n");
 	free(testr);
