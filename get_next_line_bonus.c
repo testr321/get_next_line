@@ -58,7 +58,7 @@ static char	*readloop(int fd, char **buffer, char *str, char *tempbuffer)
 	}
 }
 
-static char	*exist(char **buffer, char *str, char *tempstr, int tempint)
+static char	*exist(char **buffer, char *str, char **tempstr, int tempint)
 {
 	str = ft_strljoin("", buffer[fd], tempint);
 	tempstr = malloc(sizeof(*tempstr) * 2);
