@@ -65,15 +65,14 @@ char	*get_next_line(int fd)
 	char		tempbuffer[BUFFER_SIZE + 1];
 	char		*str;
 	int			tempint;
-	int			readlen;
 
 	if (fd < 0)
 		return (0);
 	fd++;
 	if (!buffer)
 	{
-		readlen = read(fd - 1, tempbuffer, BUFFER_SIZE);
-		if (readlen == -1)
+		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
+		if (tempint == -1)
 			return (0);
 		buffer = malloc(sizeof(*buffer) * (fd + 2));
 		buffer[fd + 1] = 0;
@@ -101,14 +100,14 @@ char	*get_next_line(int fd)
 				free(tempstr);
 				return (str);
 			}
-			readlen = read(fd - 1, tempbuffer, BUFFER_SIZE);
-			if (readlen == -1)
+			tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
+			if (tempint == -1)
 				return (0);
 		}
 		else
 		{
-			readlen = read(fd - 1, tempbuffer, BUFFER_SIZE);
-			if (readlen == -1)
+			tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
+			if (tempint == -1)
 				return (0);
 			tempstr = copy(buffer, fd, 0);
 			free(buffer);
@@ -117,7 +116,7 @@ char	*get_next_line(int fd)
 			buffer[0] = ft_itoa(fd);
 		}
 	}
-	tempbuffer[readlen] = '\0';
+	tempbuffer[tempint] = '\0';
 	if (buffer[fd])
 		str = ft_strljoin(buffer[fd], "", 0);
 	else
