@@ -63,22 +63,15 @@ static char	*exist(char **buffer, int fd, int tempint, int choice)
 	char	**tempstr;
 	char	*str;
 
-	if (choice == 1)
-	{
-		str = ft_strljoin("", buffer[fd], tempint);
-		tempstr = malloc(sizeof(*tempstr) * 2);
-		tempstr[1] = 0;
-		tempstr[0] = ft_strljoin(buffer[fd] + tempint, "", 0);
-		free(buffer[fd]);
-		buffer[fd] = ft_strljoin(tempstr[0], "", 0);
-		free(tempstr[0]);
-		free(tempstr);
-		return (str);
-	}
-	buffer = malloc(sizeof(*buffer) * (fd + 2));
-	buffer[fd + 1] = 0;
-	buffer[0] = ft_itoa(fd);
-	return (0);
+	str = ft_strljoin("", buffer[fd], tempint);
+	tempstr = malloc(sizeof(*tempstr) * 2);
+	tempstr[1] = 0;
+	tempstr[0] = ft_strljoin(buffer[fd] + tempint, "", 0);
+	free(buffer[fd]);
+	buffer[fd] = ft_strljoin(tempstr[0], "", 0);
+	free(tempstr[0]);
+	free(tempstr);
+	return (str);
 }
 
 char	*get_next_line(int fd)
@@ -96,10 +89,10 @@ char	*get_next_line(int fd)
 		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
 		if (tempint == -1)
 			return (0);
-		multi2(buffer, fd, tempint, 0);
-		// buffer = malloc(sizeof(*buffer) * (fd + 2));
-		// buffer[fd + 1] = 0;
-		// buffer[0] = ft_itoa(fd);
+		//multi2(buffer, fd, tempint, 0);
+		buffer = malloc(sizeof(*buffer) * (fd + 2));
+		buffer[fd + 1] = 0;
+		buffer[0] = ft_itoa(fd);
 	}
 	else if (ft_atoi(buffer[0]) >= fd)
 	{
