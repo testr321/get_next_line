@@ -21,7 +21,7 @@ static char	**copy(char **str1, int size, int choice)
 	}
 	while (tempint <= size && choice == 1)
 	{
-		buffer[tempint] = 0;
+		str1[tempint] = 0;
 		tempint++;
 	}
 	return (str2);
