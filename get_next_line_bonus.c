@@ -81,7 +81,7 @@ static char	*exist(char **buffer, int fd, int tempint, int choice)
 	return (0);
 }
 
- char	*get_next_line2(int fd, char **buffer, char *tempbuffer, int tempint)
+/*  char	*get_next_line2(int fd, char **buffer, char *tempbuffer, int tempint)
 {
 	char	*str;
 	char	**tempstr;
@@ -104,7 +104,7 @@ static char	*exist(char **buffer, int fd, int tempint, int choice)
 		str = ft_strljoin("\0", "", 0);
 	free(buffer[fd]);
 	return (readloop(fd, buffer, str, tempbuffer));
-} 
+}  */
 
 char	*get_next_line(int fd)
 {
@@ -132,7 +132,25 @@ char	*get_next_line(int fd)
 		if (tempint == -1)
 			return (0);
 	}
-	return (get_next_line2(fd, buffer, tempbuffer, tempint));
+	if (buffer && ft_atoi(buffer[0]) < fd)
+	{
+		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
+		if (tempint == -1)
+			return (0);
+		tempstr = copy(buffer, fd, 0);
+		free(buffer);
+		buffer = copy(tempstr, fd, 1);
+		free(tempstr);
+		buffer[0] = ft_itoa(fd);
+	}
+	tempbuffer[tempint] = '\0';
+	if (buffer[fd])
+		str = ft_strljoin(buffer[fd], "", 0);
+	else
+		str = ft_strljoin("\0", "", 0);
+	free(buffer[fd]);
+	return (readloop(fd, buffer, str, tempbuffer));
+	//return (get_next_line2(fd, buffer, tempbuffer, tempint));
 }
 
 /* #include <stdio.h>
