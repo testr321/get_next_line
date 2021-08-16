@@ -78,6 +78,7 @@ static char	*multi2(char **buffer, int fd, int tempint, int choice)
 	buffer[fd + 1] = 0;
 	buffer[0] = ft_itoa(fd);
 	copy(buffer, fd, 2);
+	return (0);
 }
 
 char	*get_next_line(int fd)
