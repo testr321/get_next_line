@@ -85,8 +85,8 @@ char	*get_next_line2(int fd, char **buffer, char *tempbuffer, int *tempint)
 {
 	char	**tempstr;
 
-	tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
-	if (tempint == -1)
+	*tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
+	if (*tempint == -1)
 		return (0);
 	tempstr = copy(buffer, fd, 0, 1);
 	buffer = copy(tempstr, fd, 1, 1);
