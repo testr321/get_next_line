@@ -75,6 +75,9 @@ static char	*exist(char **buffer, int fd, int tempint, int choice)
 		free(tempstr);
 		return (str);
 	}
+	buffer[fd + 1] = 0;
+	buffer[0] = ft_itoa(fd);
+	copy(buffer, fd, 2);
 	return (0);
 }
 
@@ -95,9 +98,7 @@ char	*get_next_line(int fd)
 			return (0);
 		buffer = malloc(sizeof(*buffer) * (fd + 2));
 		exist(buffer, fd, tempint, 0);
-		buffer[fd + 1] = 0;
-		buffer[0] = ft_itoa(fd);
-		copy(buffer, fd, 2);
+		
 	}
 	else if (ft_atoi(buffer[0]) >= fd)
 	{
