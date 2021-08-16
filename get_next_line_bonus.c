@@ -109,7 +109,6 @@ char	*get_next_line2(int fd, char **buffer, char *tempbuffer, int tempint)
 char	*get_next_line(int fd)
 {
 	static char	**buffer;
-	char		**tempstr;
 	char		tempbuffer[BUFFER_SIZE + 1];
 	int			tempint;
 
