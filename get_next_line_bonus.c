@@ -27,7 +27,7 @@ static char	*ft_setstr(int fd, char **buffer, char *str, int tempint)
 	return (str);
 }
 
-static char	*readloop(int fd, char **buffer, char *str, char tempbuffer)
+static char	*readloop(int fd, char **buffer, char *str, char *tempbuffer)
 {
 	int		tempint;
 
