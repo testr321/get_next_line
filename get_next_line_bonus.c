@@ -92,7 +92,6 @@ static void	*get_next_line2(int fd, char **buffer, char *tempbuffer, int *tempin
 	buffer = copy(tempstr, fd, 1, 1);
 	free(buffer[0]);
 	buffer[0] = ft_itoa(fd);
-	
 }
 
 char	*get_next_line(int fd)
