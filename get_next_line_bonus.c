@@ -152,7 +152,10 @@ char	*get_next_line(int fd)
 		}
 	}
 	tempbuffer[readlen] = '\0';
-	if (!buffer[fd])
+	if (buffer[fd])
+		tempint = 0;
+		//str = ft_strljoin(buffer[fd], "", 0);
+	else
 		str = ft_strljoin("\0", "", 0);
 	return (readloop(fd, buffer, str, tempbuffer));
 }
