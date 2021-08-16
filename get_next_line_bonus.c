@@ -81,7 +81,7 @@ static char	*exist(char **buffer, int fd, int tempint, int choice)
 	return (0);
 }
 
-static void	get_next_line2(int fd, char **buffer, char *tempbuffer, int *tempint)
+static char	*get_next_line2(int fd, char **buffer, char *tempbuffer, int *tempint)
 {
 	char	**tempstr;
 
@@ -92,6 +92,7 @@ static void	get_next_line2(int fd, char **buffer, char *tempbuffer, int *tempint
 	buffer = copy(tempstr, fd, 1, 1);
 	free(buffer[0]);
 	buffer[0] = ft_itoa(fd);
+	return (0);
 }
 
 char	*get_next_line(int fd)
