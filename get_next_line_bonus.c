@@ -75,6 +75,7 @@ static char	*exist(char **buffer, int fd, int tempint, int choice)
 		free(tempstr);
 		return (str);
 	}
+	return (0);
 }
 
 char	*get_next_line(int fd)
