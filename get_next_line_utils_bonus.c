@@ -1,5 +1,32 @@
 #include "get_next_line_bonus.h"
 
+char	*ft_setstr(int fd, char **buffer, char *str, int tempint)
+{
+	char	*tempstr;
+
+	tempint += multi(str, 0) + multi(buffer[fd], 0);
+	if (multi(buffer[fd], 1))
+		tempint = multi(str, 0) + multi(buffer[fd], 1);
+	tempstr = ft_strljoin(str, "", 0);
+	free(str);
+	if (multi(buffer[fd], 1))
+		str = ft_strljoin(tempstr, buffer[fd], multi(buffer[fd], 1));
+	else
+		str = ft_strljoin(tempstr, buffer[fd], tempint);
+	free(tempstr);
+	if (multi(buffer[fd], 1))
+	{
+		tempstr = ft_strljoin(buffer[fd] + multi(buffer[fd], 1), "", 0);
+		free(buffer[fd]);
+		if (multi(tempstr, 0))
+			buffer[fd] = ft_strljoin(tempstr, "", 0);
+		else
+			buffer[fd] = 0;
+		free(tempstr);
+	}
+	return (str);
+}
+
 size_t	multi(const char *s, int choice)
 {
 	size_t	i;
