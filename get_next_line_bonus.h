@@ -11,8 +11,7 @@
 
 char	*get_next_line(int fd);
 
-size_t	ft_check(const char *s);
-size_t	ft_strlen(const char *s);
+size_t	multi(const char *s, int choice);
 char	*ft_strljoin(char const *s1, char const *s2, size_t size);
 int		ft_atoi(const char *nptr);
 char	*ft_itoa(int n);
