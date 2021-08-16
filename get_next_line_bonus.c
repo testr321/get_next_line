@@ -81,12 +81,35 @@ static char	*exist(char **buffer, int fd, int tempint, int choice)
 	return (0);
 }
 
-char	*get_next_line2(int fd, char **buffer, char *tempbuffer, int tempint)
+char	*get_next_line(int fd)
 {
-	char	*str;
-	char	**tempstr;
+	static char	**buffer;
+	char		**tempstr;
+	char		*str;
+	char		tempbuffer[BUFFER_SIZE + 1];
+	int			tempint;
 
-	if (!(ft_atoi(buffer[0]) >= fd || !buffer))
+	if (fd++ < 0)
+		return (0);
+	if (!buffer)
+	{
+		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
+		if (tempint == -1)
+			return (0);
+		buffer = malloc(sizeof(*buffer) * (fd + 2));
+		exist(buffer, fd, tempint, 0);
+		
+	}
+	else if (ft_atoi(buffer[0]) >= fd)
+	{
+		tempint = multi(buffer[fd], 1);
+		if (tempint)
+			return (exist(buffer, fd, tempint, 1));
+		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
+		if (tempint == -1)
+			return (0);
+	}
+	else
 	{
 		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
 		if (tempint == -1)
@@ -104,35 +127,6 @@ char	*get_next_line2(int fd, char **buffer, char *tempbuffer, int tempint)
 		str = ft_strljoin("\0", "", 0);
 	free(buffer[fd]);
 	return (readloop(fd, buffer, str, tempbuffer));
-}
-
-char	*get_next_line(int fd)
-{
-	static char	**buffer;
-	char		tempbuffer[BUFFER_SIZE + 1];
-	int			tempint;
-
-	if (fd++ < 0)
-		return (0);
-	tempint = 0;
-	if (!buffer)
-	{
-		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
-		if (tempint == -1)
-			return (0);
-		buffer = malloc(sizeof(*buffer) * (fd + 2));
-		exist(buffer, fd, tempint, 0);
-	}
-	else if (ft_atoi(buffer[0]) >= fd)
-	{
-		tempint = multi(buffer[fd], 1);
-		if (tempint)
-			return (exist(buffer, fd, tempint, 1));
-		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
-		if (tempint == -1)
-			return (0);
-	}
-	return (get_next_line2(fd, buffer, tempbuffer, tempint));
 }
 
 /* #include <stdio.h>
