@@ -74,10 +74,6 @@ static char	*multi2(char **buffer, int fd, int tempint, int choice)
 		free(tempstr);
 		return (str);
 	}
-	buffer = malloc(sizeof(*buffer) * (fd + 2));
-	buffer[fd + 1] = 0;
-	buffer[0] = ft_itoa(fd);
-	copy(buffer, fd, 2);
 	return (0);
 }
 
@@ -97,6 +93,10 @@ char	*get_next_line(int fd)
 		if (tempint == -1)
 			return (0);
 		multi2(buffer, fd, tempint, 0);
+		buffer = malloc(sizeof(*buffer) * (fd + 2));
+		buffer[fd + 1] = 0;
+		buffer[0] = ft_itoa(fd);
+		copy(buffer, fd, 2);
 	}
 	else if (ft_atoi(buffer[0]) >= fd)
 	{
