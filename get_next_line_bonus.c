@@ -113,6 +113,7 @@ char	*get_next_line(int fd)
 
 	if (fd++ < 0)
 		return (0);
+	tempint = 0;
 	if (!buffer)
 	{
 		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
