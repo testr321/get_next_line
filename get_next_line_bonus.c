@@ -1,6 +1,6 @@
 #include "get_next_line_bonus.h"
 
-static char	**copy(char **str1, int size)
+static char	**copy(char **str1, int size, int choice)
 {
 	char	**str2;
 	int		tempint;
@@ -14,10 +14,14 @@ static char	**copy(char **str1, int size)
 		if (str1[tempint])
 		{
 			str2[tempint] = ft_strljoin(str1[tempint], "", 0);
-			free(str1[tempint]);
+			free(str1[tempint++]);
 		}
 		else
-			str2[tempint] = 0;
+			str2[tempint++] = 0;
+	}
+	while (tempint <= size && choice == 1)
+	{
+		buffer[tempint] = 0;
 		tempint++;
 	}
 	return (str2);
@@ -132,14 +136,9 @@ char	*get_next_line(int fd)
 			readlen = read(fd - 1, tempbuffer, BUFFER_SIZE);
 			if (readlen == -1)
 				return (0);
-			tempstr = copy(buffer, fd);
+			tempstr = copy(buffer, fd, 0);
 			free(buffer);
-			buffer = copy(tempstr, fd);
-			while (tempint <= fd)
-			{
-				buffer[tempint] = 0;
-				tempint++;
-			}
+			buffer = copy(tempstr, fd, 1);
 			free(tempstr);
 			buffer[0] = ft_itoa(fd);
 		}
