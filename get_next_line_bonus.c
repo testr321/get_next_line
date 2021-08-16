@@ -62,7 +62,8 @@ static char	*exist(char **buffer, int fd, int tempint, int choice)
 {
 	char	**tempstr;
 	char	*str;
-
+	
+	(void)choice;
 	str = ft_strljoin("", buffer[fd], tempint);
 	tempstr = malloc(sizeof(*tempstr) * 2);
 	tempstr[1] = 0;
