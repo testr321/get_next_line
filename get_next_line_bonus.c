@@ -94,6 +94,7 @@ char	*get_next_line(int fd)
 		if (tempint == -1)
 			return (0);
 		buffer = malloc(sizeof(*buffer) * (fd + 2));
+		exist(buffer, fd, tempint, 0);
 		buffer[fd + 1] = 0;
 		buffer[0] = ft_itoa(fd);
 		copy(buffer, fd, 2);
