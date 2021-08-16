@@ -80,10 +80,10 @@ static char	*exist(char **buffer, int fd, int tempint, int choice)
 	copy(buffer, fd, 2, 1);
 	return (0);
 }
-
-static void	get_next_line2(int fd, char ***buffer, int choice)
+#include <stdio.h>
+static void	get_next_line2(int fd, char ***buffer, char **str, int choice)
 {
-	char	**tempstr;
+	char **tempstr;
 
 	if (choice == 1)
 	{
@@ -91,6 +91,14 @@ static void	get_next_line2(int fd, char ***buffer, int choice)
 		*buffer = copy(tempstr, fd, 1, 1);
 		free(*buffer[0]);
 		*buffer[0] = ft_itoa(fd);
+	}
+	else if (choice == 0)
+	{
+		if ((*buffer)[fd])
+			*str = ft_strljoin((*buffer)[fd], "", 0);
+		else
+			*str = ft_strljoin("\0", "", 0);
+		free((*buffer)[fd]);
 	}
 }
 
@@ -100,29 +108,51 @@ char	*get_next_line(int fd)
 	char		tempbuffer[BUFFER_SIZE + 1];
 	int			tempint;
 	char		*str;
+	char		**tempstr;
 
-	if (buffer && ft_atoi(buffer[0]) >= fd && multi(buffer[fd], 1))
-		return (exist(buffer, fd, multi(buffer[fd], 1), 1));
+	if (buffer && ft_atoi(buffer[0]) >= fd + 1 && multi(buffer[fd + 1], 1))
+		return (exist(buffer, fd + 1, multi(buffer[fd + 1], 1), 1));
 	tempint = read(fd, tempbuffer, BUFFER_SIZE);
 	if (fd++ < 0 || tempint == -1)
 		return (0);
 	if (buffer && ft_atoi(buffer[0]) < fd)
-		get_next_line2(fd, &buffer, 1);
+		get_next_line2(fd, &buffer, 0, 1);
 	if (!buffer)
 	{
 		buffer = malloc(sizeof(*buffer) * (fd + 2));
 		exist(buffer, fd, tempint, 0);
 	}
 	tempbuffer[tempint] = '\0';
-	if ((buffer)[fd])
-		str = ft_strljoin((buffer)[fd], "", 0);
-	else
-		str = ft_strljoin("\0", "", 0);
-	free((buffer)[fd]);
-	// get_next_line2(fd, &buffer, &str, 0);
+	get_next_line2(fd, &buffer, &str, 0);
 	return (readloop(fd, buffer, str, tempbuffer));
 }
+/* #include <stdio.h>
+int main()
+{
+	int fd = open("files/multiple_nlx5", O_RDWR);
+	char *testr;
 
+	testr = get_next_line(fd);
+	printf("Main output1: %s",  testr);
+	printf("---main newline test---\n");
+	free(testr);
+	testr = get_next_line(fd);
+	printf("Main output1: %s",  testr);
+	printf("---main newline test---\n");
+	free(testr);
+	testr = get_next_line(fd);
+	printf("Main output1: %s",  testr);
+	printf("---main newline test---\n");
+	free(testr);
+	testr = get_next_line(fd);
+	printf("Main output1: %s",  testr);
+	printf("---main newline test---\n");
+	free(testr);
+	testr = get_next_line(fd);
+	printf("Main output1: %s",  testr);
+	printf("---main newline test---\n");
+	free(testr);
+} */
 /* #include <stdio.h>
 int main()
 {
@@ -171,4 +201,4 @@ int main()
 	printf("Main output: %s",  testr);
 	printf("---main newline test---\n");
 	free(testr);
-} */
+}*/
