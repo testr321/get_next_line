@@ -87,7 +87,7 @@ char	*get_next_line2(int fd, char **buffer, char *tempbuffer)
 	char	**tempstr;
 	int		tempint;
 
-	if ((!ft_atoi(buffer[0]) >= fd) && buffer)
+	if (!(ft_atoi(buffer[0]) >= fd || !buffer))
 	{
 		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
 		if (tempint == -1)
