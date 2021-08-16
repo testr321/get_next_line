@@ -151,7 +151,7 @@ char	*get_next_line(int fd)
 			buffer[0] = ft_itoa(fd);
 		}
 	}
-	if (!str)
+	if (!*str)
 		str = ft_strljoin("\0", "", 0);
 	tempbuffer[readlen] = '\0';
 	return (readloop(fd, buffer, str, tempbuffer));
