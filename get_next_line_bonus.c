@@ -131,7 +131,7 @@ char	*get_next_line(int fd)
 		if (tempint == -1)
 			return (0);
 	}
-	else if (buffer && ft_atoi(buffer[0]) < fd)
+	if (buffer && ft_atoi(buffer[0]) < fd)
 	{
 		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
 		if (tempint == -1)
