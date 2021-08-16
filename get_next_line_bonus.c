@@ -125,34 +125,8 @@ char	*get_next_line(int fd)
 	get_next_line2(fd, &buffer, &str, 0);
 	return (readloop(fd, buffer, str, tempbuffer));
 }
-/* #include <stdio.h>
-int main()
-{
-	int fd = open("files/multiple_nlx5", O_RDWR);
-	char *testr;
-
-	testr = get_next_line(fd);
-	printf("Main output1: %s",  testr);
-	printf("---main newline test---\n");
-	free(testr);
-	testr = get_next_line(fd);
-	printf("Main output1: %s",  testr);
-	printf("---main newline test---\n");
-	free(testr);
-	testr = get_next_line(fd);
-	printf("Main output1: %s",  testr);
-	printf("---main newline test---\n");
-	free(testr);
-	testr = get_next_line(fd);
-	printf("Main output1: %s",  testr);
-	printf("---main newline test---\n");
-	free(testr);
-	testr = get_next_line(fd);
-	printf("Main output1: %s",  testr);
-	printf("---main newline test---\n");
-	free(testr);
-} */
-/* #include <stdio.h>
+/*
+#include <stdio.h>
 int main()
 {
 	int fd[4];
