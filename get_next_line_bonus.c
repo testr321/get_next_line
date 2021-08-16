@@ -6,24 +6,26 @@ static char	**copy(char **str1, int size, int choice)
 	int		tempint;
 
 	tempint = 1;
-	str2 = malloc(sizeof(*str2) * (size + 2));
-	str2[size + 1] = 0;
-	str2[0] = ft_strljoin(str1[0], "", 0);
-	while (tempint <= ft_atoi(str1[0]) + 1)
+	if (choice != 3)
 	{
-		if (str1[tempint])
+		str2 = malloc(sizeof(*str2) * (size + 2));
+		str2[size + 1] = 0;
+		str2[0] = ft_strljoin(str1[0], "", 0);
+		while (tempint <= ft_atoi(str1[0]) + 1)
 		{
-			str2[tempint] = ft_strljoin(str1[tempint], "", 0);
-			free(str1[tempint++]);
+			if (str1[tempint])
+			{
+				str2[tempint] = ft_strljoin(str1[tempint], "", 0);
+				free(str1[tempint++]);
+			}
+			else
+				str2[tempint++] = 0;
 		}
-		else
-			str2[tempint++] = 0;
 	}
 	while (tempint <= size && (choice == 1 || choice == 3))
-	{
-		str1[tempint] = 0;
-		tempint++;
-	}
+		str1[tempint++] = 0;
+	if (choice == 3)
+		return (0);
 	return (str2);
 }
 
@@ -103,12 +105,13 @@ char	*get_next_line(int fd)
 		buffer = malloc(sizeof(*buffer) * (fd + 2));
 		buffer[fd + 1] = 0;
 		buffer[0] = ft_itoa(fd);
-		tempint = 1;
-		while (tempint <= fd)
-		{
-			buffer[tempint] = 0;
-			tempint++;
-		}
+		copy(buffer, fd, 3);
+		// tempint = 1;
+		// while (tempint <= fd)
+		// {
+		// 	buffer[tempint] = 0;
+		// 	tempint++;
+		// }
 	}
 	else
 	{
