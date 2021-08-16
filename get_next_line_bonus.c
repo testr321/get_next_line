@@ -11,7 +11,7 @@ static char	**copy(char **str1, int size, int choice)
 		str2 = malloc(sizeof(*str2) * (size + 2));
 		str2[size + 1] = 0;
 		str2[0] = ft_strljoin(str1[0], "", 0);
-		while (tempint <= ft_atoi(str1[0]) + 1 && size != 0)
+		while (tempint <= ft_atoi(str1[0]) + 1)
 		{
 			if (str1[tempint])
 			{
@@ -66,9 +66,8 @@ char	*get_next_line(int fd)
 	char		*str;
 	int			tempint;
 
-	if (fd < 0)
+	if (fd++ < 0)
 		return (0);
-	fd++;
 	if (!buffer)
 	{
 		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
@@ -79,42 +78,35 @@ char	*get_next_line(int fd)
 		buffer[0] = ft_itoa(fd);
 		copy(buffer, fd, 2);
 	}
+	else if (ft_atoi(buffer[0]) >= fd)
+	{
+		tempint = multi(buffer[fd], 1);
+		if (tempint)
+		{
+			str = ft_strljoin("", buffer[fd], tempint);
+			tempstr = malloc(sizeof(*tempstr) * 2);
+			tempstr[1] = 0;
+			tempstr[0] = ft_strljoin(buffer[fd] + tempint, "", 0);
+			free(buffer[fd]);
+			buffer[fd] = ft_strljoin(tempstr[0], "", 0);
+			free(tempstr[0]);
+			free(tempstr);
+			return (str);
+		}
+		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
+		if (tempint == -1)
+			return (0);
+	}
 	else
 	{
-		if (ft_atoi(buffer[0]) >= fd)
-		{
-			tempint = multi(buffer[fd], 1);
-			if (tempint)
-			{
-				str = ft_strljoin("", buffer[fd], tempint);
-				// tempstr = copy(buffer, fd, 0);
-				// free(buffer);
-				// buffer = copy(tempstr, fd, 1);
-				// free(tempstr);
-				tempstr = malloc(sizeof(*tempstr) * 2);
-				tempstr[1] = 0;
-				tempstr[0] = ft_strljoin(buffer[fd] + tempint, "", 0);
-				free(buffer[fd]);
-				buffer[fd] = ft_strljoin(tempstr[0], "", 0);
-				free(tempstr[0]);
-				free(tempstr);
-				return (str);
-			}
-			tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
-			if (tempint == -1)
-				return (0);
-		}
-		else
-		{
-			tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
-			if (tempint == -1)
-				return (0);
-			tempstr = copy(buffer, fd, 0);
-			free(buffer);
-			buffer = copy(tempstr, fd, 1);
-			free(tempstr);
-			buffer[0] = ft_itoa(fd);
-		}
+		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
+		if (tempint == -1)
+			return (0);
+		tempstr = copy(buffer, fd, 0);
+		free(buffer);
+		buffer = copy(tempstr, fd, 1);
+		free(tempstr);
+		buffer[0] = ft_itoa(fd);
 	}
 	tempbuffer[tempint] = '\0';
 	if (buffer[fd])
