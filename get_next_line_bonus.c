@@ -4,6 +4,8 @@ static char	*ft_setstr(int fd, char **buffer, char *str, int tempint)
 {
 	char	*tempstr;
 
+	if (tempint != -1)
+		tempbuffer[tempint] = '\0';
 	tempint += ft_strlen(str) + ft_strlen(buffer[fd]);
 	if (ft_check(buffer[fd]))
 		tempint = ft_strlen(str) + ft_check(buffer[fd]);
@@ -32,16 +34,15 @@ static char	*readloop(int fd, char **buffer, char *str, char *tempbuffer)
 	int		tempint;
 
 	free(buffer[fd]);
-	buffer[fd] = ft_strljoin(tempbuffer, "", 0);
+	buffer[fd] = ft_strljoin(tempbuffer, "", -1);
 	while (1)
 	{
 		str = ft_setstr(fd, buffer, str, 0);
 		if (ft_check(str))
 			return (str);
 		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
-		tempbuffer[tempint] = '\0';
 		free(buffer[fd]);
-		buffer[fd] = ft_strljoin(tempbuffer, "", 0);
+		buffer[fd] = ft_strljoin(tempbuffer, "", tempint);
 		if (tempint == 0)
 		{
 			str = ft_setstr(fd, buffer, str, ft_strlen(str));
@@ -56,7 +57,7 @@ static char	*readloop(int fd, char **buffer, char *str, char *tempbuffer)
 		}
 	}
 }
-
+/* 
 char	*get_next_line(int fd)
 {
 	static char	**buffer;
@@ -156,7 +157,7 @@ char	*get_next_line(int fd)
 	else
 		str = ft_strljoin("\0", "", 0);
 	return (readloop(fd, buffer, str, tempbuffer));
-}
+} */
 
 /* #include <stdio.h>
 int main()
