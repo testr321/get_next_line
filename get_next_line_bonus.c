@@ -4,8 +4,6 @@ static char	*ft_setstr(int fd, char **buffer, char *str, int tempint)
 {
 	char	*tempstr;
 
-	if (tempint != -1)
-		tempbuffer[tempint] = '\0';
 	tempint += ft_strlen(str) + ft_strlen(buffer[fd]);
 	if (ft_check(buffer[fd]))
 		tempint = ft_strlen(str) + ft_check(buffer[fd]);
@@ -33,16 +31,16 @@ static char	*readloop(int fd, char **buffer, char *str, char *tempbuffer)
 {
 	int		tempint;
 
-	free(buffer[fd]);
-	buffer[fd] = ft_strljoin(tempbuffer, "", -1);
+	buffer[fd] = ft_strljoin(tempbuffer, "", 0);
 	while (1)
 	{
 		str = ft_setstr(fd, buffer, str, 0);
 		if (ft_check(str))
 			return (str);
 		tempint = read(fd - 1, tempbuffer, BUFFER_SIZE);
+		tempbuffer[tempint] = '\0';
 		free(buffer[fd]);
-		buffer[fd] = ft_strljoin(tempbuffer, "", tempint);
+		buffer[fd] = ft_strljoin(tempbuffer, "", 0);
 		if (tempint == 0)
 		{
 			str = ft_setstr(fd, buffer, str, ft_strlen(str));
@@ -57,7 +55,7 @@ static char	*readloop(int fd, char **buffer, char *str, char *tempbuffer)
 		}
 	}
 }
-/* 
+
 char	*get_next_line(int fd)
 {
 	static char	**buffer;
@@ -113,7 +111,7 @@ char	*get_next_line(int fd)
 				return (0);
 			tempint = 1;
 			tempstr = malloc(sizeof(*tempstr) * (ft_atoi(buffer[0]) + 2));
-			tempstr[ft_atoi(buffer[0]) + 1] = 0; 
+			tempstr[ft_atoi(buffer[0]) + 1] = 0;
 			tempstr[0] = ft_strljoin(buffer[0], "", 0);
 			while (tempint <= ft_atoi(buffer[0]) + 1)
 			{
@@ -127,10 +125,10 @@ char	*get_next_line(int fd)
 				tempint++;
 			}
 			free(buffer);
+			tempint = 1;
 			buffer = malloc(sizeof(*buffer) * (fd + 2));
 			buffer[fd + 1] = 0;
 			buffer[0] = ft_strljoin(tempstr[0], "", 0);
-			tempint = 1;
 			while (tempint <= (ft_atoi(buffer[0])))
 			{
 				if (tempstr[tempint])
@@ -156,8 +154,11 @@ char	*get_next_line(int fd)
 		str = ft_strljoin(buffer[fd], "", 0);
 	else
 		str = ft_strljoin("\0", "", 0);
+	free(buffer[fd]);
 	return (readloop(fd, buffer, str, tempbuffer));
-} */
+}
+
+
 
 /* #include <stdio.h>
 int main()
