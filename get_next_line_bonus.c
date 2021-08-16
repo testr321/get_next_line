@@ -108,7 +108,6 @@ char	*get_next_line(int fd)
 	char		tempbuffer[BUFFER_SIZE + 1];
 	int			tempint;
 	char		*str;
-	char		**tempstr;
 
 	if (buffer && ft_atoi(buffer[0]) >= fd && multi(buffer[fd], 1))
 		return (exist(buffer, fd, multi(buffer[fd], 1), 1));
