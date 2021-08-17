@@ -80,7 +80,7 @@ static char	*exist(char **buffer, int fd, int tempint, int choice)
 	copy(buffer, fd, 2, 1);
 	return (0);
 }
-#include <stdio.h>
+
 static void	get_next_line2(int fd, char ***buffer, char **str, int choice)
 {
 	char **tempstr;
