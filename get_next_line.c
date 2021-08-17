@@ -13,7 +13,7 @@ static char	*ft_setstr(char *buffer, char *str, int tempint)
 	return (str);
 }
 
-static char	*readloop(int fd, size_t *index, char *buffer, char *str)
+static char	*readloop(int fd, char *buffer, char *str)
 {
 	int		tempint;
 
@@ -21,7 +21,6 @@ static char	*readloop(int fd, size_t *index, char *buffer, char *str)
 	{
 		tempint = read(fd, buffer, BUFFER_SIZE);
 		buffer[tempint] = '\0';
-		*index = ft_check(buffer);
 		if (tempint == -1 || (tempint == 0 && !*str) || fd < 0)
 		{
 			free(str);
@@ -29,76 +28,96 @@ static char	*readloop(int fd, size_t *index, char *buffer, char *str)
 		}
 		if (tempint == 0 && *str)
 		{
-			str = ft_setstr(buffer, str, tempint + ft_strlen(str) + 1);
+			str = ft_setstr(buffer, str, ft_strlen(str) + 1);
 			return (str);
 		}
-		if (!*index)
+		if (!ft_check(buffer))
 			tempint += ft_strlen(str) + 1;
 		else
-			tempint = ft_strlen(str) + *index + 1;
+			tempint = ft_strlen(str) + ft_check(buffer) + 1;
 		str = ft_setstr(buffer, str, tempint);
-		if (*index)
+		if (ft_check(buffer))
+		{
+			tempint = ft_check(buffer);
+			ft_strlcpy(buffer, buffer + tempint,
+				ft_strlen(buffer + tempint) + 1);
 			return (str);
+		}
 	}
 }
 
 char	*get_next_line(int fd)
 {
-	static size_t	index;
-	static char		buffer[BUFFER_SIZE + 1];
-	char			*str;
-	int				tempint;
+	static char	buffer[BUFFER_SIZE + 1];
+	char		*str;
+	int			tempint;
 
-	tempint = ft_check(buffer + index);
+	tempint = ft_check(buffer);
 	if (tempint)
-	{		
+	{
 		str = malloc(sizeof(*str) * (tempint + 1));
-		ft_strlcpy(str, buffer + index, tempint + 1);
-		index += tempint;
+		ft_strlcpy(str, buffer, tempint + 1);
+		ft_strlcpy(buffer, buffer + tempint, ft_strlen(buffer + tempint) + 1);
 		return (str);
 	}
 	else
 	{
-		if (index < BUFFER_SIZE)
+		if (*buffer)
 		{
-			tempint = ft_strlen(buffer + index);
+			tempint = ft_strlen(buffer);
 			str = malloc(sizeof(*str) + (tempint + 1));
-			ft_strlcpy(str, buffer + index, tempint + 1);
+			ft_strlcpy(str, buffer, tempint + 1);
 		}
 		else
 			str = ft_strdup("\0");
-		return (readloop(fd, &index, buffer, str));
+		return (readloop(fd, buffer, str));
 	}
 }
-/*
-#include <stdio.h>
+
+/* #include <stdio.h>
 int main()
 {
-	int fd = open("testrtext.txt", O_RDONLY);
+	int fd;
+	fd = open("files/multiple_nlx5", O_RDWR);
 	char *testr;
 
-	testr = get_next_line(fd);
-	printf("Main output: %s",  testr);
+	testr = get_next_line(1000);
+	printf("Main output2: %s",  testr);
 	printf("---main newline test---\n");
 	free(testr);
 
 	testr = get_next_line(fd);
-	printf("Main output: %s",  testr);
+	printf("Main output1: %s",  testr);
 	printf("---main newline test---\n");
 	free(testr);
 
 	testr = get_next_line(fd);
-	printf("Main output: %s",  testr);
+	printf("Main output1: %s",  testr);
+	printf("---main newline test---\n");
+	free(testr);
+
+	testr = get_next_line(1001);
+	printf("Main output2: %s",  testr);
 	printf("---main newline test---\n");
 	free(testr);
 
 	testr = get_next_line(fd);
-	printf("Main output: %s",  testr);
+	printf("Main output1: %s",  testr);
 	printf("---main newline test---\n");
 	free(testr);
 
 	testr = get_next_line(fd);
-	printf("Main output: %s",  testr);
+	printf("Main output1: %s",  testr);
+	printf("---main newline test---\n");
+	free(testr);
+
+	testr = get_next_line(fd);
+	printf("Main output1: %s",  testr);
+	printf("---main newline test---\n");
+	free(testr);
+
+	testr = get_next_line(fd);
+	printf("Main output1: %s",  testr);
 	printf("---main newline test---\n");
 	free(testr);
 } */
