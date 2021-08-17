@@ -13,7 +13,7 @@ static char	*ft_setstr(char *buffer, char *str, int tempint)
 	return (str);
 }
 
-static char	*readloop(int fd, char *buffer, char *str)
+static char	*readloop(int fd, size_t *index, char *buffer, char *str)
 {
 	int		tempint;
 
@@ -21,6 +21,7 @@ static char	*readloop(int fd, char *buffer, char *str)
 	{
 		tempint = read(fd, buffer, BUFFER_SIZE);
 		buffer[tempint] = '\0';
+		*index = ft_check(buffer);
 		if (tempint == -1 || (tempint == 0 && !*str) || fd < 0)
 		{
 			free(str);
@@ -28,21 +29,16 @@ static char	*readloop(int fd, char *buffer, char *str)
 		}
 		if (tempint == 0 && *str)
 		{
-			str = ft_setstr(buffer, str, ft_strlen(str) + 1);
+			str = ft_setstr(buffer, str, tempint + ft_strlen(str) + 1);
 			return (str);
 		}
-		if (!ft_check(buffer))
+		if (!*index)
 			tempint += ft_strlen(str) + 1;
 		else
-			tempint = ft_strlen(str) + ft_check(buffer) + 1;
+			tempint = ft_strlen(str) + *index + 1;
 		str = ft_setstr(buffer, str, tempint);
-		if (ft_check(buffer))
-		{
-			tempint = ft_check(buffer);
-			ft_strlcpy(buffer, buffer + tempint,
-				ft_strlen(buffer + tempint) + 1);
+		if (*index)
 			return (str);
-		}
 	}
 }
 

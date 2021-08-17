@@ -83,7 +83,7 @@ static char	*exist(char **buffer, int fd, int tempint, int choice)
 
 static void	get_next_line2(int fd, char ***buffer, char **str, int choice)
 {
-	char **tempstr;
+	char	**tempstr;
 
 	if (choice == 1)
 	{
